@@ -36,5 +36,8 @@ public interface Unit{
 
 	// actions in scene which an unit MAY do:
 	void play();
+
+	// simple things which an unit CAN do :
+	public abstract void beHarmedBy(final int loss);
 }
 

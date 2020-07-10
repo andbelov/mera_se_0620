@@ -1,5 +1,7 @@
 package game;
 
+import static game.Unit.PropertyType.HARM;
+
 public abstract class MonsterCharacter extends Character{
 	protected enum MonsterAction{FIGHT}
 	//public abstract MonsterActionType getMonsterActionType();
@@ -12,8 +14,10 @@ public abstract class MonsterCharacter extends Character{
 			case FIGHT -> fight();
 		}
 	}
-
-	@Override
-	public int harm(){
+	public void fight(){
+		final int harm = getPropertyValue(HARM);
+		System.out.println("Монстр " + name + " стоит на поз. " + this.getPosition()
+				+ "\nи атакует " + getOpponent().getName() + " на поз. " + getOpponent().getPosition()
+				+ " на " + harm + " единиц урона");
 	}
 }

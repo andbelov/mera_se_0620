@@ -4,18 +4,20 @@ import units.spell.*;
 import util.Util;
 
 public abstract class MagicianCharacter extends Character{
-	abstract Spell chooseSpellToCast();
-	protected void doSpecificAct(){
-		chooseSpellToCast().cast(this);
-	}
-
 	private final int SPELL_MAX_NUM = 3;
 	protected final Spell[] spells = new Spell[Util.getRandom(SPELL_MAX_NUM)];
-	MagicianCharacter(){
+	protected MagicianCharacter(){
 		for(int i=0; i<spells.length ; i++){
-			final Spell spell = new HealMyself();
+			final Spell spell = new !!todo random!! HealMyself();
 			spells[i] = spell;
 		}
+	}
+
+	protected abstract Spell chooseSpellToCast();
+	protected void doSpecificAct(){
+		final var spell = chooseSpellToCast();
+		spell.anonce(this);
+		spell.cast(this);
 	}
 
 	public void remedy(final int remedy){
@@ -46,10 +48,6 @@ public abstract class MagicianCharacter extends Character{
 	@Override
 	public int defend(){
 		return 0;
-	}
-	@Override
-	public void beHarmedBy(final int loss){
-		health -= loss;
 	}
 	@Override
 	public int react(){

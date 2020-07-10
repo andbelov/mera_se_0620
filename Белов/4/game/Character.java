@@ -1,13 +1,13 @@
 package game;
 
+import units.Magician;
+import units.Monster;
 import util.Util;
 
-import static game.MagicianCharacter.*;
-import static game.Scene.anonceIfUnitKilled;
 import static game.Unit.BoundType.MAX;
 import static game.Unit.BoundType.MIN;
 import static game.Unit.PropertyType.*;
-import static util.Util.*;
+import static util.Util.getRandomInBound;
 
 abstract class Character implements Unit{
 	private final int[] properties = new int[PropertyType.values().length];
@@ -70,14 +70,14 @@ abstract class Character implements Unit{
 			setOpponent();
 			assert(Scene.isOpponentChosenCorrectly(getOpponent()));
 			move();
+			assert(Scene.isMovedCorrectly(this));
 			doSpecificAct();
-			anonceIfUnitKilled(getOpponent());
-			anonceIfUnitKilled(this);
+			assert(Scene.isActedCorrectly(this));
 		}
 	}
+	protected abstract void move();
 	protected abstract void doSpecificAct();
-	protected void move(){}
-	protected void fight(){
+	/*protected void fight(){
 		Unit unit = this;
 		final Unit enemy = unit.getOpponent();
 		final int uHarm = unit.harm();
@@ -94,7 +94,7 @@ abstract class Character implements Unit{
 		final int uDefend = unit.defend();
 		assert(unit.isPropertyInBound(Unit.PropertyType.DEFENSE, uDefend));
 		unit.beDamagedBy(eReact);
-	}
+	}*/
 	protected void defend(final Unit unit){}
 
 	// an unit setters/getters
@@ -135,8 +135,11 @@ abstract class Character implements Unit{
 	// simple things which an unit CAN do :
 	abstract int harm();
 	protected abstract int defend();
-	protected abstract void beHarmedBy(final int loss);
+	public void beHarmedBy(final int loss){
+		health -= loss;
+	}
 	protected abstract int react();
 	protected abstract void beDamagedBy(final int loss);
+
 }
 

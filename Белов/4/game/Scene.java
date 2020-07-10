@@ -1,5 +1,8 @@
 package game;
 
+import units.Magician;
+import units.Monster;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 
@@ -20,6 +23,12 @@ public class Scene {
 	private static int aliveUnitsCount = units.length; //all units are alive from start
 	public static Unit[] getUnits(){
 		return units;
+	}
+	public static boolean isUnitMagician(final Unit unit){
+		return unit instanceof Magician;
+	}
+	public static boolean isUnitMonster(final Unit unit){
+		return unit instanceof Monster;
 	}
 	public static void create(){
 		Class<?>[] interfaces = Character.class.getInterfaces();
@@ -89,6 +98,8 @@ public class Scene {
 				continue;
 			}
 			u.play();
+			anonceIfUnitKilled(u.getOpponent());
+			anonceIfUnitKilled(u);
 		}
 	}
 	static boolean isOpponentChosenCorrectly(final Unit opponent){
@@ -98,6 +109,19 @@ public class Scene {
 			}
 		}
 		return false;
+	}
+	static boolean isMovedCorrectly(final Unit unit){
+		return true;
+	}
+	static boolean isActedCorrectly(final Unit unit){
+		//check the unit for all his changes made himself
+		for(Unit u: units){
+			if(u==unit){
+				continue;
+			}
+			//check all other unit for all his changes made for them
+		}
+		return true;
 	}
 	//Если текущее здоровье у монстра стало отрицательным - он удаляется
 	//со сцены и на экран выводится текст "<имя персонажа> убит"
