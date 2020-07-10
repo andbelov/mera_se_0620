@@ -7,9 +7,10 @@ import util.Util;
 //Огненное касание - наносит урон персонажу, стоящему на соседней с магом позиции.
 //Если на соседних позициях персонажей нет - никому урон не наносится.
 class TouchFireNeighbors extends Spell{
+	public TouchFireNeighbors(){}
 	@Override
 	public String getName(){
-		return "touchFireNeighbors";
+		return this.getClass().getSimpleName();
 	}
 	public void cast(final MagicianCharacter mag){
 		final var harm = Util.getRandomInBound(HARM_MIN, HARM_MAX);

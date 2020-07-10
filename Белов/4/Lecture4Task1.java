@@ -2,21 +2,90 @@ import game.Scene;
 
 class Lecture4Task1{
 	public static void main(String[] args){
-		System.out.println("=======================================");
 		//test2();
 		task();
 	}
 	private static void test2(){
 	}
 	private static void task(){
+		System.out.println("=======================================");
+		System.out.println("CREATE SCENE");
 		Scene.create();
+		System.out.println("=======================================");
+		System.out.println("RUN GAME");
 		Scene.run();
+		System.out.println("=======================================");
+		System.out.println("SHOW RESULT");
 		Scene.showResult();
 	}
 }
 
 /* output:
- */
+ =======================================
+CREATE SCENE
+Создаю 8 юнитов
+Created Monster "Monster0" located 0 health 10
+У нового мага будет 1 страничная книга заклинаний:
+ChainLightningAllOthers
+Created Magician "Magician1" located 1 health 4
+Created Monster "Monster2" located 2 health 13
+Created Monster "Monster3" located 3 health 5
+У нового мага будет 1 страничная книга заклинаний:
+MigraineAllMagicians
+Created Magician "Magician4" located 4 health 0
+Created Monster "Monster5" located 7 health 12
+Created Monster "Monster6" located 8 health 12
+У нового мага будет 2 страничная книга заклинаний:
+FireWallEvenPositions
+ChaseAllMonsters
+Created Magician "Magician7" located 9 health 0
+=======================================
+RUN GAME
+--- game turn 1 ---
+Monster0 стоит на поз. 0 и атакует Magician4 на поз. 4 на 7 единиц урона. Теперь у него -7 здоровья
+Magician4 убит!!!!!!!!!!!!
+Маг Magician1 читает заклинание ChainLightningAllOthers
+Маг Magician1 нанес урон Monster0 на 2. Теперь у него 8 здоровья
+Маг Magician1 нанес урон Monster2 на 2. Теперь у него 11 здоровья
+Маг Magician1 нанес урон Monster3 на 2. Теперь у него 3 здоровья
+Маг Magician1 нанес урон Magician4 на 2. Теперь у него -9 здоровья
+Magician4 убит!!!!!!!!!!!!
+Маг Magician1 нанес урон Monster5 на 2. Теперь у него 10 здоровья
+Маг Magician1 нанес урон Monster6 на 2. Теперь у него 10 здоровья
+Маг Magician1 нанес урон Magician7 на 2. Теперь у него -2 здоровья
+Magician7 убит!!!!!!!!!!!!
+Monster2 стоит на поз. 2 и атакует Monster5 на поз. 7 на 5 единиц урона. Теперь у него 5 здоровья
+Monster3 стоит на поз. 3 и атакует Monster0 на поз. 0 на 7 единиц урона. Теперь у него 1 здоровья
+Monster5 стоит на поз. 7 и атакует Monster2 на поз. 2 на 5 единиц урона. Теперь у него 6 здоровья
+Monster6 стоит на поз. 8 и атакует Monster3 на поз. 3 на 6 единиц урона. Теперь у него -3 здоровья
+Monster3 убит!!!!!!!!!!!!
+--- game turn 2 ---
+Monster0 стоит на поз. 0 и атакует Monster2 на поз. 2 на 7 единиц урона. Теперь у него -1 здоровья
+Monster2 убит!!!!!!!!!!!!
+Маг Magician1 читает заклинание ChainLightningAllOthers
+Маг Magician1 нанес урон Monster0 на 1. Теперь у него 0 здоровья
+Маг Magician1 нанес урон Monster2 на 1. Теперь у него -2 здоровья
+Monster2 убит!!!!!!!!!!!!
+Маг Magician1 нанес урон Monster3 на 1. Теперь у него -4 здоровья
+Monster3 убит!!!!!!!!!!!!
+Маг Magician1 нанес урон Magician4 на 1. Теперь у него -10 здоровья
+Magician4 убит!!!!!!!!!!!!
+Маг Magician1 нанес урон Monster5 на 1. Теперь у него 4 здоровья
+Маг Magician1 нанес урон Monster6 на 1. Теперь у него 9 здоровья
+Маг Magician1 нанес урон Magician7 на 1. Теперь у него -3 здоровья
+Magician7 убит!!!!!!!!!!!!
+Monster5 стоит на поз. 7 и атакует Magician1 на поз. 1 на 5 единиц урона. Теперь у него -1 здоровья
+Magician1 убит!!!!!!!!!!!!
+Monster6 стоит на поз. 8 и атакует Monster5 на поз. 7 на 6 единиц урона. Теперь у него -2 здоровья
+Monster5 убит!!!!!!!!!!!!
+--- game turn 3 ---
+Monster0 стоит на поз. 0 и атакует Monster6 на поз. 8 на 7 единиц урона. Теперь у него 2 здоровья
+Monster6 стоит на поз. 8 и атакует Monster0 на поз. 0 на 6 единиц урона. Теперь у него -6 здоровья
+Monster0 убит!!!!!!!!!!!!
+=======================================
+SHOW RESULT
+Победил Monster6 (тип Monster)
+*/
 /*
 Задание 4. Битвы магов.
 Сегодня будем делать игру.

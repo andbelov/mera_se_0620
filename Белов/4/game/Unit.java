@@ -16,8 +16,8 @@ public interface Unit{
 	enum PropertyType{ HARM, DEFENSE, HEALTH, ACTIONS_PER_PLAY}
 	enum BoundType{ MIN, MAX}
 	int[][][] PROPERTY_BOUND = {
-			{{5,10},{4,8},{15,35},{1,1}}, //MONSTER
-			{{1,25},{2,3},{0,7},{1,1}}, //MAGICIAN
+			{{5,10},{4,8},{5,15},{1,1}}, //MONSTER
+			{{3,25},{2,3},{0,7},{1,1}}, //MAGICIAN
 	};
 
 	//int getUnitTypeIndex();
@@ -31,13 +31,11 @@ public interface Unit{
 	void setPosition(Integer uniquePosition);
 	int getHealth();
 	boolean isAlive();
-	void setOpponent();
-	Unit getOpponent();
 
 	// actions in scene which an unit MAY do:
 	void play();
 
 	// simple things which an unit CAN do :
-	public abstract void beHarmedBy(final int loss);
+	void beHarmedBy(final int loss);
 }
 

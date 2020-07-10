@@ -10,26 +10,29 @@ import static game.Unit.PropertyType.*;
 import static util.Util.getRandomInBound;
 
 abstract class Character implements Unit{
+	private static final Class[] classes = {Monster.class, Magician.class};
 	private final int[] properties = new int[PropertyType.values().length];
 	protected String name = "UNKNOWN";
 	protected int health;
 	private int position;
-	private Unit opponent;
 	Character(){
 		setProperties();
 		health = getPropertyValue(HEALTH);
 		//position = will be set by Scene
-		//enemy = will be set in every tick on unit harm()
+		//enemy = will be set in every tick on unit acts()
+	}
+	public static Class[] getClasses(){
+		return classes;
 	}
 	private void setProperties(){
 		final int uti = getUnitTypeIndex();
 		for(var ad: PropertyType.values()){
 			final int adi = ad.ordinal();
 			final boolean isZeroDefense = DEFENSE==ad;
+			final int min = PROPERTY_BOUND[uti][adi][MIN.ordinal()];
+			final int max = PROPERTY_BOUND[uti][adi][MAX.ordinal()];
 			properties[adi] = isZeroDefense ? 0
-		            : getRandomInBound(
-		                PROPERTY_BOUND[uti][adi][MIN.ordinal()],
-		                PROPERTY_BOUND[uti][adi][MAX.ordinal()]);
+		            : getRandomInBound(min, max);
 		}
 	}
 	public boolean isPropertyInBound(final PropertyType prop
@@ -40,7 +43,12 @@ abstract class Character implements Unit{
 			&& propValue <  PROPERTY_BOUND[uti][pi][MAX.ordinal()];
 	}
 	public int getUnitTypeIndex(){
-		return UnitType.valueOf(this.getClass().getSimpleName()).ordinal();
+		for(int i=0; i<classes.length; ++i){
+			if(classes[i] == this.getClass()){
+				return i;
+			}
+		}
+		return -1;
 	}
 	protected int getPropertyIndex(final String propName){
 		return PropertyType.valueOf(propName).ordinal();
@@ -51,51 +59,36 @@ abstract class Character implements Unit{
 	protected int getPropertyValue(final String propName){
 		return properties[getPropertyIndex(propName)];
 	}
-
-	// actions in scene which an unit MAY do for 1 step:
-	/*protected abstract AllActionType getAllActionType();
-	private AllActionType getActionType(){
-		AllActionType actionType = this.getAllActionType();
-		actionType = ((this.getClass().getEnclosingClass()) this).getAllActionType();
-		if(this.getClass().isInstance(MonsterCharacter.class)){
-			actionType = ((MonsterCharacter) this).getAllActionType();
-		}else if(this instanceof MagicianCharacter){
-			assert getAllActionType() != null;
-		}
-		assert actionType != null;
-		return AllActionType.valueOf(actionType.name());
-	}*/
 	public void play(){
 		for(int actCount = 0; actCount<getPropertyValue(ACTIONS_PER_PLAY); ++actCount){
-			setOpponent();
-			assert(Scene.isOpponentChosenCorrectly(getOpponent()));
 			move();
 			assert(Scene.isMovedCorrectly(this));
 			doSpecificAct();
 			assert(Scene.isActedCorrectly(this));
+			if(!isAlive()){
+				return;
+			}
 		}
 	}
-	protected abstract void move();
+	// simple things which an unit HAVE to do (inherited methods):
 	protected abstract void doSpecificAct();
-	/*protected void fight(){
-		Unit unit = this;
-		final Unit enemy = unit.getOpponent();
-		final int uHarm = unit.harm();
-		assert(unit.isPropertyInBound(Unit.PropertyType.HARM, uHarm));
-		final int eDefend = enemy.defend();
-		assert(enemy.isPropertyInBound(Unit.PropertyType.DEFENSE, eDefend));
-		enemy.beHarmedBy(uHarm);
+	protected abstract void move();
+	protected abstract void defend();
 
-		if(!enemy.isAlive()){
-			return;
-		}
-		final int eReact = enemy.react();
-		assert(enemy.isPropertyInBound(Unit.PropertyType.HARM, eReact));
-		final int uDefend = unit.defend();
-		assert(unit.isPropertyInBound(Unit.PropertyType.DEFENSE, uDefend));
-		unit.beDamagedBy(eReact);
-	}*/
-	protected void defend(final Unit unit){}
+	// simple things which an unit CAN do :
+	public void beHarmedBy(final int loss){
+		health -= loss;
+	}
+	//no exception: opponent may be itself!
+	public Unit getRandomOpponent(){
+		assert(Scene.isAliveUnitsToFight());
+		final Unit[] units = Scene.getUnits();
+		Unit u = null;
+		do{
+			u = units[Util.getRandom(units.length)];
+		}while(!u.isAlive());
+		return u;
+	}
 
 	// an unit setters/getters
 	@Override
@@ -115,15 +108,6 @@ abstract class Character implements Unit{
 		return 0 <= getHealth();
 	}
 	@Override
-	public Unit getOpponent(){
-		return opponent;
-	}
-	@Override
-	public void setOpponent(){
-		final Unit[] units = Scene.getUnits();
-		opponent = units[Util.getRandom(units.length)];
-	}
-	@Override
 	public int getPosition(){
 		return position;
 	}
@@ -131,15 +115,5 @@ abstract class Character implements Unit{
 	public void setPosition(Integer uniquePosition){
 		this.position = uniquePosition;
 	}
-
-	// simple things which an unit CAN do :
-	abstract int harm();
-	protected abstract int defend();
-	public void beHarmedBy(final int loss){
-		health -= loss;
-	}
-	protected abstract int react();
-	protected abstract void beDamagedBy(final int loss);
-
 }
 

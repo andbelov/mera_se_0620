@@ -6,9 +6,10 @@ import util.Util;
 
 //Изгнание монстров - наносит урон всем монстрам.
 class ChaseAllMonsters extends Spell{
+	public ChaseAllMonsters(){}
 	@Override
 	public String getName(){
-		return "chaseAllMonsters";
+		return this.getClass().getSimpleName();
 	}
 	public void cast(final MagicianCharacter mag){
 		final var harm = Util.getRandomInBound(HARM_MIN, HARM_MAX);
@@ -22,6 +23,7 @@ class ChaseAllMonsters extends Spell{
 					+ " нанес урон монстру " + u.getName()
 					+ " на " + harm
 					+ ". Теперь у него " + u.getHealth() + " здоровья");
+			Scene.anonceIfUnitKilled(u);
 		}
 	}
 }

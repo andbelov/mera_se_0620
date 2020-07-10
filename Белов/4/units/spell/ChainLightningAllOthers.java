@@ -7,9 +7,10 @@ import util.Util;
 //Цепная молния - наносит урон, всем персонажам на сцене, кроме мага,
 // который произносит заклинание
 class ChainLightningAllOthers extends Spell{
+	public ChainLightningAllOthers(){}
 	@Override
 	public String getName(){
-		return "chainLightningAllOthers";
+		return this.getClass().getSimpleName();
 	}
 	public void cast(final MagicianCharacter mag){
 		final var harm = Util.getRandomInBound(HARM_MIN, HARM_MAX);
@@ -23,6 +24,7 @@ class ChainLightningAllOthers extends Spell{
 					+ " нанес урон " + u.getName()
 					+ " на " + harm
 					+ ". Теперь у него " + u.getHealth() + " здоровья");
+			Scene.anonceIfUnitKilled(u);
 		}
 	}
 }

@@ -6,19 +6,28 @@ import game.MagicianCharacter;
 //		и полем "название заклинания".
 //Создайте несколько конкретных заклинаний. Например:
 public abstract class Spell{
-	//HealMyself
-	final int REMEDY_MIN = 1;
-	final int REMEDY_MAX = 3;
-	final int HARM_MIN = 1;
-	final int HARM_MAX = 3;
+	Spell(){}
+	private static final Class[] classes = {
+			ChainLightningAllOthers.class,
+			ChaseAllMonsters.class,
+			FireWallEvenPositions.class,
+			HealMyself.class,
+			MigraineAllMagicians.class,
+			StrikeLightningOne.class,
+			TouchFireNeighbors.class,
+	};
+	public static Class[] getClasses(){
+		return classes;
+	}
+
+	final static int REMEDY_MIN = 1;
+	final static int REMEDY_MAX = 3;
+	final static int HARM_MIN = 1;
+	final static int HARM_MAX = 3;
 
 	public abstract void cast(MagicianCharacter mag);
-	//abstract public int cast();
-	//abstract public int cast(final MagicianCharacter magician);
-	//abstract public int cast(final MonsterCharacter monster);
-	//abstract public int cast(final Scene scene);
 
-	public void anonce(final MagicianCharacter mag){
+	public void tellAboutCast(final MagicianCharacter mag){
 		System.out.println("Маг "+	mag.getName()
 				+" читает заклинание "+this.getName());
 	}

@@ -4,10 +4,6 @@ import static game.Unit.PropertyType.HARM;
 
 public abstract class MonsterCharacter extends Character{
 	protected enum MonsterAction{FIGHT}
-	//public abstract MonsterActionType getMonsterActionType();
-	//protected AllActionType getAllActionType(){
-	//	return AllActionType.valueOf(getMonsterActionType().name());
-	//}
 	protected abstract MonsterAction chooseActionToDo();
 	protected void doSpecificAct(){
 		switch(chooseActionToDo()){
@@ -16,8 +12,21 @@ public abstract class MonsterCharacter extends Character{
 	}
 	public void fight(){
 		final int harm = getPropertyValue(HARM);
-		System.out.println("Монстр " + name + " стоит на поз. " + this.getPosition()
-				+ "\nи атакует " + getOpponent().getName() + " на поз. " + getOpponent().getPosition()
-				+ " на " + harm + " единиц урона");
+		//opponent may NOT be itself!?
+		Unit enemy;
+		do{
+			enemy = getRandomOpponent();
+		}while(this==enemy);
+		enemy.beHarmedBy(harm);
+		System.out.println(name + " стоит на поз. " + this.getPosition()
+				+ " и атакует " + enemy.getName() + " на поз. " + enemy.getPosition()
+				+ " на " + harm + " единиц урона"
+				+ ". Теперь у него " + enemy.getHealth() + " здоровья");
+		Scene.anonceIfUnitKilled(this);
+		Scene.anonceIfUnitKilled(enemy);
+	}
+	@Override
+	protected void defend(){
+
 	}
 }

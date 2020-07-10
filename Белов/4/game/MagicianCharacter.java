@@ -1,58 +1,32 @@
 package game;
 
-import units.spell.*;
-import util.Util;
+import units.spell.Spell;
+import static util.Util.*;
 
 public abstract class MagicianCharacter extends Character{
 	private final int SPELL_MAX_NUM = 3;
-	protected final Spell[] spells = new Spell[Util.getRandom(SPELL_MAX_NUM)];
+	protected final Spell[] spells = new Spell[getRandomInBound(1, SPELL_MAX_NUM)];
 	protected MagicianCharacter(){
+		System.out.println("У нового мага будет "
+				+ spells.length + " страничная книга заклинаний:");
 		for(int i=0; i<spells.length ; i++){
-			final Spell spell = new !!todo random!! HealMyself();
-			spells[i] = spell;
+			spells[i] = (Spell) newRandomClass(Spell.getClasses());
+			assert spells[i] != null;
+			System.out.println(spells[i].getName());
 		}
 	}
 
 	protected abstract Spell chooseSpellToCast();
 	protected void doSpecificAct(){
 		final var spell = chooseSpellToCast();
-		spell.anonce(this);
+		spell.tellAboutCast(this);
 		spell.cast(this);
 	}
+	@Override
+	protected void defend(){
 
+	}
 	public void remedy(final int remedy){
 		health += remedy;
 	}
-	//	Маги. Могут колдовать заклинания. Заклинания могут делать что угодно
-	//	со сценой и персонажами на ней.
-	//	У каждого мага есть список заклинаний, которые он может использовать,
-	//	но не больше 3.
-	public void heal(final Unit unit){}
-
-	@Override
-	public int harm(){
-		for(var sp: spells){
-			final Unit enemy = getOpponent();
-		}
-		return 0;
-	}
-/*
-			final Unit enemy = getOpponent();
-			final String simpleName = enemy.getClass().getSimpleName();
-			final UnitType unitType = UnitType.valueOf(simpleName);
-			switch(unitType){
-				case MAGICIAN: sp.cast((MagicianCharacter)enemy);
-				case MONSTER:  sp.cast((MonsterCharacter) enemy);
-			}
- */
-	@Override
-	public int defend(){
-		return 0;
-	}
-	@Override
-	public int react(){
-		return 0;
-	}
-	@Override
-	public void beDamagedBy(final int loss){}
 }
