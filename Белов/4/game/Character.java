@@ -1,7 +1,9 @@
 package game;
 
+import units.Knight;
 import units.Magician;
 import units.Monster;
+import units.Robber;
 import util.Util;
 
 import static game.Unit.BoundType.MAX;
@@ -9,8 +11,14 @@ import static game.Unit.BoundType.MIN;
 import static game.Unit.PropertyType.*;
 import static util.Util.getRandomInBound;
 
-abstract class Character implements Unit{
-	private static final Class[] classes = {Monster.class, Magician.class};
+@SuppressWarnings({"unused", "EmptyMethod"})
+public abstract class Character implements Unit{
+	private static final Class<?>[] classes = {
+			Monster.class,
+			Magician.class,
+			Knight.class,
+			Robber.class,
+	};
 	private final int[] properties = new int[PropertyType.values().length];
 	protected String name = "UNKNOWN";
 	protected int health;
@@ -21,18 +29,19 @@ abstract class Character implements Unit{
 		//position = will be set by Scene
 		//enemy = will be set in every tick on unit acts()
 	}
-	public static Class[] getClasses(){
+	public static Class<?>[] getClasses(){
 		return classes;
 	}
 	private void setProperties(){
 		final int uti = getUnitTypeIndex();
 		for(var ad: PropertyType.values()){
 			final int adi = ad.ordinal();
-			final boolean isZeroDefense = DEFENSE==ad;
+			//final boolean isZeroDefense = DEFENSE==ad;
 			final int min = PROPERTY_BOUND[uti][adi][MIN.ordinal()];
 			final int max = PROPERTY_BOUND[uti][adi][MAX.ordinal()];
-			properties[adi] = isZeroDefense ? 0
-		            : getRandomInBound(min, max);
+			properties[adi] = //isZeroDefense ? 0 :
+			                  getRandomInBound(min, max);
+			assert isPropertyInBound(ad, properties[adi]);
 		}
 	}
 	public boolean isPropertyInBound(final PropertyType prop
@@ -56,17 +65,18 @@ abstract class Character implements Unit{
 	public int getPropertyValue(PropertyType prop){
 		return properties[prop.ordinal()];
 	}
+	@SuppressWarnings("unused")
 	protected int getPropertyValue(final String propName){
 		return properties[getPropertyIndex(propName)];
 	}
 	public void doYourTurn(){
-		//isAlive() has been checked before i call this method
+		//isDead() has been checked before i call this method
 		for(int actCount = 0; actCount<getPropertyValue(ACTIONS_PER_TURN); ++actCount){
 			move();
 			assert(Scene.isMovedCorrectly(this));
 			doSpecificAct();
 			assert(Scene.isActedCorrectly(this));
-			if(!isAlive()){
+			if(isDead()){
 				return;
 			}
 		}
@@ -74,26 +84,29 @@ abstract class Character implements Unit{
 	// simple things which an unit HAVE to do (inherited methods):
 	protected abstract void doSpecificAct();
 	protected abstract void move();
+	@SuppressWarnings("EmptyMethod")
 	protected abstract void defend();
 
 	// simple things which an unit CAN do :
-	public void beHarmedBy(final int loss){
+	public void beHarmedFromWith(final Unit enemy, final int loss){
 		health -= loss;
 	}
 	//no exception: opponent may be itself!
+	@SuppressWarnings("UnusedAssignment")
 	public Unit getRandomOpponent(){
 		////assert(Scene.isAliveUnitsToFight());
 		final var units = Scene.getUnits();
 		Unit u = null;
 		////do{
 			u = units.get(Util.getRandom(units.size()));
-		////}while(!u.isAlive());
-		////assert u.isAlive();
+		////}while(!u.isDead());
+		////assert u.isDead();
 		return u;
 	}
 	protected void harm(final Unit enemy, final int harm){
-		if(!this.isAlive()){
-			//System.out.println(",но сам уже мерт ...");
+		if(this.isDead()){
+			System.out.print('.');
+			//System.out.println(",но сам уже мертв ...");
 			return;
 		}
 		if(this==enemy){
@@ -101,8 +114,8 @@ abstract class Character implements Unit{
 		}
 		System.out.println(", решил напасть на " + enemy.getName()
 				+ ", на поз. " + enemy.getPosition());
-		if(!enemy.isAlive()){
-			System.out.println(", но враг уже мерт ...");
+		if(enemy.isDead()){
+			System.out.println(", но враг уже мертв ...");
 			return;
 		}
 		final int prevHealth = enemy.getHealth();
@@ -110,11 +123,11 @@ abstract class Character implements Unit{
 		 * If a mag has const harm - uncomment line above in Spell
 		 * (like each Monster has his own fight force as a const),
 		 * But for Mag, i guess he has a spell depending on random mud at each time moment */
-		enemy.beHarmedBy(harm);
+		enemy.beHarmedFromWith(this, harm);
 		System.out.println(", с уроном " + harm
 				+ ". Здоровье врага было " + prevHealth
 				+ ", теперь " + enemy.getHealth());
-		if(!enemy.isAlive()){
+		if(enemy.isDead()){
 			Scene.anonceKilled(enemy);
 		}
 	}
@@ -133,8 +146,8 @@ abstract class Character implements Unit{
 		return health;
 	}
 	@Override
-	public boolean isAlive(){
-		return 0 <= getHealth();
+	public boolean isDead(){
+		return 0 > getHealth();
 	}
 	@Override
 	public int getPosition(){

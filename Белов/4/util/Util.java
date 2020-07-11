@@ -5,23 +5,24 @@ import java.util.Random;
 
 public class Util{
 	static final Random random = new Random();
-	public static Class getRandomClass(Class[] classes){
+	public static <T> Class<?> getRandomClass(Class<?>[] classes){
 		return classes[getRandom(classes.length)];
 	}
-	public static Object newRandomClass(final Class[] classes){
+	public static Object newRandomClass(final Class<?>[] classes){
 		try{
-			final var ctor = getRandomClass(classes).getConstructor();
-			ctor.setAccessible(true);
-			return ctor.newInstance();
+			final var ctr = getRandomClass(classes).getConstructor();
+			ctr.setAccessible(true);
+			return ctr.newInstance();
 		}catch(InstantiationException | IllegalAccessException
 			  | NoSuchMethodException | InvocationTargetException e){
 			e.printStackTrace();
 			return null;
 		}
 	}
+	@SuppressWarnings("unused")
 	public static <T extends Enum<T>> T randomEnum(Class<T> enumClass) {
-		T[] vals = enumClass.getEnumConstants();
-		return vals.length == 0 ? null : vals[getRandom(vals.length)];
+		T[] values = enumClass.getEnumConstants();
+		return values.length == 0 ? null : values[getRandom(values.length)];
 	}
 	public static int getRandomInBound(final int min, final int max){
 		if(max==min){

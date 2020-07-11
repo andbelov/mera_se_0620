@@ -1,8 +1,5 @@
 package game;
 
-import units.Magician;
-import units.Monster;
-
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,16 +19,11 @@ public class Scene {
 	//	private static final Unit[] units
 	//			= new Unit[getRandomInBound(1, 1+UNITS_MAX)];
 	private static final List<Unit> units = new LinkedList<>();
+	@SuppressWarnings("unused")
 	public Scene(){
 	}
 	public static List<Unit> getUnits(){
 		return units;
-	}
-	public static boolean isUnitMagician(final Unit unit){
-		return unit instanceof Magician;
-	}
-	public static boolean isUnitMonster(final Unit unit){
-		return unit instanceof Monster;
 	}
 	private static Integer[] randomUnitsUniquePositions(final int length){
 		final var uniquePositions = new HashSet<Integer>(length);
@@ -69,7 +61,7 @@ public class Scene {
 					+ " В живых сейчас " + units.size());
 			//Игра - пошаговая. В каждый ход
 			Scene.gameTurn();
-			Scene.units.removeIf(u -> !u.isAlive());
+			Scene.units.removeIf(Unit::isDead);
 		}
 	}
 	public static boolean isAliveUnitsToFight(){
@@ -95,18 +87,20 @@ public class Scene {
 		for(var u: units){
 			//В каждый ход все персонажи со сцены делают одно действие:
 			//монстр атакует кого-то, а маг читает любое известное ему заклинание.
-			if(!u.isAlive()){
+			if(u.isDead()){
 				continue;
 			}
 			System.out.println();
 			u.doYourTurn();
 		}
 	}
+	@SuppressWarnings("SameReturnValue")
 	public
 	static boolean isMovedCorrectly(final Unit unit){
 		assert unit!=null;
 		return true;
 	}
+	@SuppressWarnings("SameReturnValue")
 	static boolean isActedCorrectly(final Unit unit){
 		assert unit!=null;
 		//todo check the unit for all his changes made himself
@@ -132,7 +126,7 @@ public class Scene {
 	/*public static void removeKilledAndAnonce(final Unit[] fightingUnits){
 		assert fightingUnits.length==2;
 		for(var u: fightingUnits){
-			if(!u.isAlive() && u != fightingUnits[0]){
+			if(!u.isDead() && u != fightingUnits[0]){
 				System.out.println(u.getName() + " убит!!!!!!!!!!!!");
 				units.remove(u);
 			}

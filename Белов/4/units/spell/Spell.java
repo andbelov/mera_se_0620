@@ -7,7 +7,7 @@ import game.MagicianCharacter;
 //Создайте несколько конкретных заклинаний. Например:
 public abstract class Spell{
 	Spell(){}
-	private static final Class[] classes = {
+	private static final Class<?>[] classes = {
 			ChainLightningAllOthers.class,
 			ChaseAllMonsters.class,
 			FireWallEvenPositions.class,
@@ -16,7 +16,7 @@ public abstract class Spell{
 			StrikeLightningOne.class,
 			TouchFireNeighbors.class,
 	};
-	public static Class[] getClasses(){
+	public static Class<?>[] getClasses(){
 		return classes;
 	}
 

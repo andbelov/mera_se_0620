@@ -5,8 +5,6 @@ class Lecture4Task1{
 		//test2();
 		task();
 	}
-	private static void test2(){
-	}
 	private static void task(){
 		System.out.println("\n=======================================");
 		System.out.println("CREATE SCENE");
@@ -23,112 +21,124 @@ class Lecture4Task1{
 /* output:
 =======================================
 CREATE SCENE
-Создаю 6 юнитов
+Создаю 7 юнитов
 
 -- new unit --
-У нового мага будет 3 страничная книга заклинаний:
+Created Knight "Knight0" located 0 health 24
+
+-- new unit --
+У нового мага будет 2 страничная книга заклинаний:
 MigraineAllMagicians
-TouchFireNeighbors
+ChaseAllMonsters
+Created Magician "Magician1" located 1 health 2
+
+-- new unit --
+Created Monster "Monster2" located 2 health 17
+
+-- new unit --
+Created Robber "Robber3" located 3 health 9
+
+-- new unit --
+У нового мага будет 2 страничная книга заклинаний:
 StrikeLightningOne
-Created Magician "Magician0" located 8 health 0
-
--- new unit --
-У нового мага будет 2 страничная книга заклинаний:
-FireWallEvenPositions
-MigraineAllMagicians
-Created Magician "Magician1" located 2 health 4
-
--- new unit --
-У нового мага будет 3 страничная книга заклинаний:
-MigraineAllMagicians
-FireWallEvenPositions
-ChainLightningAllOthers
-Created Magician "Magician2" located 3 health 5
-
--- new unit --
-У нового мага будет 2 страничная книга заклинаний:
-HealMyself
-MigraineAllMagicians
-Created Magician "Magician3" located 4 health 1
+ChaseAllMonsters
+Created Magician "Magician4" located 5 health 6
 
 -- new unit --
 У нового мага будет 1 страничная книга заклинаний:
-HealMyself
-Created Magician "Magician4" located 5 health 2
+ChainLightningAllOthers
+Created Magician "Magician5" located 6 health 0
 
 -- new unit --
-Created Monster "Monster5" located 6 health 12
+Created Knight "Knight6" located 8 health 27
 
 =======================================
 RUN GAME
 
---- game turn 1 --- В живых сейчас 6
+--- game turn 1 --- В живых сейчас 7
 
--- ☻ Маг Magician0 на поз. 8 -- читает заклинание TouchFireNeighbors
-
--- ☻ Маг Magician1 на поз. 2 -- читает заклинание MigraineAllMagicians
-, решил напасть на Magician0, на поз. 8
-, с уроном 1. Здоровье врага было 0, теперь -1
-Magician0 убит!!!!!!!!!!!!
-, стал МАЗОХИСТОМ
-, решил напасть на Magician1, на поз. 2
-, с уроном 1. Здоровье врага было 4, теперь 3
-, решил напасть на Magician2, на поз. 3
-, с уроном 1. Здоровье врага было 5, теперь 4
-, решил напасть на Magician3, на поз. 4
-, с уроном 1. Здоровье врага было 1, теперь 0
+-- Ꚗ Рыцарь Knight0 на поз. 0 --
 , решил напасть на Magician4, на поз. 5
-, с уроном 1. Здоровье врага было 2, теперь 1
+, с уроном 5. Здоровье врага было 6, теперь 1
 
--- ☻ Маг Magician2 на поз. 3 -- читает заклинание FireWallEvenPositions
-, решил напасть на Magician0, на поз. 8
-, но враг уже мерт ...
-, решил напасть на Magician1, на поз. 2
-, с уроном 1. Здоровье врага было 3, теперь 2
-, решил напасть на Magician3, на поз. 4
-, с уроном 2. Здоровье врага было 0, теперь -2
-Magician3 убит!!!!!!!!!!!!
-, решил напасть на Monster5, на поз. 6
-, с уроном 1. Здоровье врага было 12, теперь 11
-
--- ☻ Маг Magician4 на поз. 5 -- читает заклинание HealMyself
-Маг Magician4 исцелен на 1. Здоровье: 1 -> 2
-
--- ▼ Монстр Monster5 на поз. 6 --
-, решил напасть на Magician2, на поз. 3
-, с уроном 7. Здоровье врага было 4, теперь -3
-Magician2 убит!!!!!!!!!!!!
-
---- game turn 2 --- В живых сейчас 3
-
--- ☻ Маг Magician1 на поз. 2 -- читает заклинание MigraineAllMagicians
+-- ☻ Маг Magician1 на поз. 1 -- читает заклинание MigraineAllMagicians
 , стал МАЗОХИСТОМ
-, решил напасть на Magician1, на поз. 2
-, с уроном 1. Здоровье врага было 2, теперь 1
-, решил напасть на Magician4, на поз. 5
+, решил напасть на Magician1, на поз. 1
 , с уроном 2. Здоровье врага было 2, теперь 0
+, решил напасть на Magician4, на поз. 5
+, с уроном 1. Здоровье врага было 1, теперь 0
+, решил напасть на Magician5, на поз. 6
+, с уроном 2. Здоровье врага было 0, теперь -2
+Magician5 убит!!!!!!!!!!!!
 
--- ☻ Маг Magician4 на поз. 5 -- читает заклинание HealMyself
-Маг Magician4 исцелен на 1. Здоровье: 0 -> 1
+-- ▼ Монстр Monster2 на поз. 2 --
+, решил напасть на Robber3, на поз. 3
+, Оппппс! разбойник от Монстра уклонился
+, с уроном 14. Здоровье врага было 9, теперь 9
 
--- ▼ Монстр Monster5 на поз. 6 --
-, решил напасть на Magician1, на поз. 2
-, с уроном 7. Здоровье врага было 1, теперь -6
+-- ¶ Разбойник Robber3 на поз. 3 --
+, решил напасть на Magician4, на поз. 5
+, с уроном 16. Здоровье врага было 0, теперь -16
+Magician4 убит!!!!!!!!!!!!
+-- ¶ Разбойник Robber3 на поз. 3 --
+, решил напасть на Knight0, на поз. 0
+, с уроном 16. Здоровье врага было 24, теперь 8
+
+-- Ꚗ Рыцарь Knight6 на поз. 8 --
+, решил напасть на Magician4, на поз. 5
+, но враг уже мертв ...
+
+--- game turn 2 --- В живых сейчас 5
+
+-- Ꚗ Рыцарь Knight0 на поз. 0 --
+, решил напасть на Robber3, на поз. 3
+, с уроном 5. Здоровье врага было 9, теперь 4
+
+-- ☻ Маг Magician1 на поз. 1 -- читает заклинание MigraineAllMagicians
+, стал МАЗОХИСТОМ
+, решил напасть на Magician1, на поз. 1
+, с уроном 1. Здоровье врага было 0, теперь -1
 Magician1 убит!!!!!!!!!!!!
 
---- game turn 3 --- В живых сейчас 2
+-- ▼ Монстр Monster2 на поз. 2 --
+, решил напасть на Magician1, на поз. 1
+, но враг уже мертв ...
 
--- ☻ Маг Magician4 на поз. 5 -- читает заклинание HealMyself
-Маг Magician4 исцелен на 1. Здоровье: 1 -> 2
+-- ¶ Разбойник Robber3 на поз. 3 --
+, решил напасть на Knight0, на поз. 0
+, с уроном 16. Здоровье врага было 8, теперь -8
+Knight0 убит!!!!!!!!!!!!
+-- ¶ Разбойник Robber3 на поз. 3 --
+, решил напасть на Knight0, на поз. 0
+, но враг уже мертв ...
 
--- ▼ Монстр Monster5 на поз. 6 --
-, решил напасть на Magician4, на поз. 5
-, с уроном 7. Здоровье врага было 2, теперь -5
-Magician4 убит!!!!!!!!!!!!
+-- Ꚗ Рыцарь Knight6 на поз. 8 --
+, решил напасть на Knight0, на поз. 0
+, но враг уже мертв ...
+
+--- game turn 3 --- В живых сейчас 3
+
+-- ▼ Монстр Monster2 на поз. 2 --
+, решил напасть на Robber3, на поз. 3
+, Оппппс! разбойник от Монстра уклонился
+, с уроном 14. Здоровье врага было 4, теперь 4
+
+-- ¶ Разбойник Robber3 на поз. 3 --
+, решил напасть на Monster2, на поз. 2
+, с уроном 16. Здоровье врага было 17, теперь 1
+-- ¶ Разбойник Robber3 на поз. 3 --
+, решил напасть на Monster2, на поз. 2
+, с уроном 16. Здоровье врага было 1, теперь -15
+Monster2 убит!!!!!!!!!!!!
+
+-- Ꚗ Рыцарь Knight6 на поз. 8 --
+, решил напасть на Robber3, на поз. 3
+, с уроном 5. Здоровье врага было 4, теперь -1
+Robber3 убит!!!!!!!!!!!!
 
 =======================================
 SHOW RESULT
-Победил Monster5 (тип Monster)
+Победил Knight6 (тип Knight)
 */
 /*
 Задание 4. Битвы магов.

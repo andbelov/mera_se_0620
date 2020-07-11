@@ -9,8 +9,10 @@ public class Magician extends MagicianCharacter{
 	public Spell chooseSpellToCast(){
 		return spells[getRandom(spells.length)];
 	}
+	@SuppressWarnings("unused")
 	@Override
 	public void move(){}
+	@SuppressWarnings({"EmptyMethod", "unused"})
 	@Override
 	protected void defend(){}
 }

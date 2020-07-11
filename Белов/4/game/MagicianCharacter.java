@@ -24,6 +24,7 @@ public abstract class MagicianCharacter extends Character{
 	}
 
 	protected abstract Spell chooseSpellToCast();
+	@SuppressWarnings("unused")
 	protected void doSpecificAct(){
 		final var spell = chooseSpellToCast();
 		System.out.println("-- ☻ Маг " + getName()
@@ -31,6 +32,7 @@ public abstract class MagicianCharacter extends Character{
 				+ " -- читает заклинание "+spell.getName());
 		spell.cast(this);
 	}
+	@SuppressWarnings("unused")
 	@Override
 	protected void defend(){
 

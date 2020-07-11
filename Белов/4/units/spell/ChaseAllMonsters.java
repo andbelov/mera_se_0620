@@ -2,6 +2,7 @@ package units.spell;
 
 import game.MagicianCharacter;
 import game.Scene;
+import units.Monster;
 
 //Изгнание монстров - наносит урон всем монстрам.
 class ChaseAllMonsters extends Spell{
@@ -12,7 +13,7 @@ class ChaseAllMonsters extends Spell{
 	}
 	public void cast(final MagicianCharacter mag){
 		Scene.getUnits().listIterator().forEachRemaining(enemy -> {
-			if(Scene.isUnitMonster(enemy)){
+			if(enemy instanceof Monster){
 				mag.harmBySpell(enemy);
 			}
 		});
