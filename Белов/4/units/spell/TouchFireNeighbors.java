@@ -1,8 +1,6 @@
 package units.spell;
 
-import game.MagicianCharacter;
-import game.Scene;
-import util.Util;
+import game.*;
 
 //Огненное касание - наносит урон персонажу, стоящему на соседней с магом позиции.
 //Если на соседних позициях персонажей нет - никому урон не наносится.
@@ -13,19 +11,15 @@ class TouchFireNeighbors extends Spell{
 		return this.getClass().getSimpleName();
 	}
 	public void cast(final MagicianCharacter mag){
-		final var harm = Util.getRandomInBound(HARM_MIN, HARM_MAX);
-		final var units = Scene.getUnits();
-		for(var u: units){
-			if(1!=Math.abs(mag.getPosition()-u.getPosition())){
-				continue;
-			}
-			u.beHarmedBy(harm);
-			System.out.println("Маг " + mag.getName()
-					+ " на позиции " + mag.getPosition()
-					+ " нанес урон " + u.getName()
-					+ " на позиции " + u.getPosition()
-					+ " на " + harm
-					+ ". Теперь у него " + u.getHealth() + " здоровья");
+		tryHarm(mag, -1);
+		tryHarm(mag, +1);
+	}
+	private void tryHarm(final MagicianCharacter mag
+	                     , final int posOffset){
+		final Unit enemy = Scene.findUnitLocated(
+				mag.getPosition() + posOffset);
+		if(null!=enemy){
+			mag.harmBySpell(enemy);
 		}
 	}
 }

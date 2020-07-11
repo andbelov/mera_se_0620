@@ -4,6 +4,8 @@ import units.Magician;
 import units.Monster;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 
 import static util.Util.*;
 
@@ -17,9 +19,12 @@ import static util.Util.*;
 public class Scene {
 	public static final int POSITION_INDEX_MAX = 10;
 	public static final int UNITS_MAX = POSITION_INDEX_MAX;
-	private static final Unit[] units
-			= new Unit[getRandomInBound(1, 1+UNITS_MAX)];
-	public static Unit[] getUnits(){
+	//	private static final Unit[] units
+	//			= new Unit[getRandomInBound(1, 1+UNITS_MAX)];
+	private static final List<Unit> units = new LinkedList<>();
+	public Scene(){
+	}
+	public static List<Unit> getUnits(){
 		return units;
 	}
 	public static boolean isUnitMagician(final Unit unit){
@@ -37,11 +42,15 @@ public class Scene {
 		return uniquePositions.toArray(arr);
 	}
 	public static void create(){
-		System.out.println("Создаю " + units.length + " юнитов");
-		final var uniquePositions = randomUnitsUniquePositions(units.length);
-		for(int i=0; i<units.length; ++i){
-			Unit u = units[i] = (Unit) newRandomClass(Character.getClasses());
+		final int unitsNum = getRandomInBound(2, 1+UNITS_MAX);
+		System.out.println("Создаю " + unitsNum + " юнитов");
+		final var uniquePositions = randomUnitsUniquePositions(unitsNum);
+		for(int i=0; i<unitsNum; ++i){
+			System.out.println("\n-- new unit --");
+			//debug Unit u = (Unit) new Magician();
+			Unit u = (Unit) newRandomClass(Character.getClasses());
 			assert u!=null;
+			units.add(u);
 			u.setName(u.getClass().getSimpleName() + i);
 			u.setPosition(uniquePositions[i]);
 			System.out.println("Created " + u.getClass().getSimpleName()
@@ -56,22 +65,15 @@ public class Scene {
 		//то игра завершается. And i don't let it go forever
 		int turnCount = 0;
 		while(isAliveUnitsToFight() && 999>++turnCount){
-			System.out.println("--- game turn " + turnCount + " ---");
+			System.out.println("\n--- game turn " + turnCount + " ---"
+					+ " В живых сейчас " + units.size());
 			//Игра - пошаговая. В каждый ход
 			Scene.gameTurn();
+			Scene.units.removeIf(u -> !u.isAlive());
 		}
 	}
 	public static boolean isAliveUnitsToFight(){
-		int aliveUnitsCount = 0;
-		for(var u: units){
-			if(!u.isAlive()){
-				continue;
-			}
-			if(1<++aliveUnitsCount){
-				return true;
-			}
-		}
-		return false;
+		return 1<units.size();
 	}
 	public static void showResult(){
 		// и на экран выводится имя и тип (маг, монстр) победившего персонажа.
@@ -96,9 +98,11 @@ public class Scene {
 			if(!u.isAlive()){
 				continue;
 			}
-			u.play();
+			System.out.println();
+			u.doYourTurn();
 		}
 	}
+	public
 	static boolean isMovedCorrectly(final Unit unit){
 		assert unit!=null;
 		return true;
@@ -115,22 +119,31 @@ public class Scene {
 		}
 		return true;
 	}
-	//Если текущее здоровье у монстра стало отрицательным - он удаляется
-	//со сцены и на экран выводится текст "<имя персонажа> убит"
-	public static void anonceIfUnitKilled(final Unit unit){
-		if(!unit.isAlive()){
-			System.out.println(unit.getName() + " убит!!!!!!!!!!!!");
-		}
-	}
 
-	private static int findCharacter(final int pos){
-		assert(0<=pos && Scene.POSITION_INDEX_MAX >pos);
-		for(int i = 0; i < units.length; i++){
-			if(pos== units[i].getPosition()){
-				return i;
+	// Если текущее здоровье у монстра стало отрицательным - он удаляется
+	// со сцены (NOT RIGHT NOW, because the instance of class should be not null)
+	// и на экран выводится текст "<имя персонажа> убит"
+	public static void anonceKilled(final Unit enemy){
+		System.out.println(enemy.getName() + " убит!!!!!!!!!!!!");
+	}
+	//public static void removeKilled(final Unit enemy){
+	//	units.remove(enemy);
+	///}
+	/*public static void removeKilledAndAnonce(final Unit[] fightingUnits){
+		assert fightingUnits.length==2;
+		for(var u: fightingUnits){
+			if(!u.isAlive() && u != fightingUnits[0]){
+				System.out.println(u.getName() + " убит!!!!!!!!!!!!");
+				units.remove(u);
 			}
 		}
-		throw new AssertionError("findCharacter: No Characters[]"
-				+ "found on position" + pos);
+	}*/
+
+	public static Unit findUnitLocated(final int pos){
+		if(!(0<=pos && Scene.POSITION_INDEX_MAX >pos)){
+			return null;
+		}
+		return units.stream().filter(u -> pos == u.getPosition())
+				.findFirst().orElse(null);
 	}
 }
