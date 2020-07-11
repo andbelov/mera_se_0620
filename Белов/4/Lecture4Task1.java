@@ -5,8 +5,6 @@ class Lecture4Task1{
 		//test2();
 		task();
 	}
-	private static void test2(){
-	}
 	private static void task(){
 		System.out.println("\n=======================================");
 		System.out.println("CREATE SCENE");

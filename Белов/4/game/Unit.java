@@ -8,7 +8,7 @@ package game;
 //, бывают слабые. Сильные всегда бьют сильно
 
 public interface Unit{
-	//actions which an unit may do while one step, define in abstract cpecific class
+	//actions which an unit may do while one step, define in abstract specific class
 	//enum AllActionType{WAIT, FLIGHT, FIGHT
 	//	, HEAL_ITSELF, HEAL_SOMEBODY
 	//	, SAVE, HAND_OVER_SOMETHING}
@@ -16,13 +16,11 @@ public interface Unit{
 	enum PropertyType{ HARM, DEFENSE, HEALTH, ACTIONS_PER_TURN}
 	enum BoundType{ MIN, MAX}
 	int[][][] PROPERTY_BOUND = {
-			{{5,10},{4,8},{5,15},{1,1}}, //MONSTER
-			{{3,25},{2,3},{0,7},{1,1}}, //MAGICIAN
+			{{10,15},{0,0},{16,24},{1,1}}, //MONSTER
+			{{20,25},{0,0},{0,8},{1,1}}, //MAGICIAN
+			{{5,10},{3,5},{24,32},{1,2}}, //KNIGHT
+			{{15,20},{1,2},{8,16},{2,3}}, //ROBBER
 	};
-
-	//int getUnitTypeIndex();
-	boolean isPropertyInBound(final PropertyType prop
-			, final int propValue);
 
 	// an unit setters/getters
 	String getName();
@@ -30,12 +28,14 @@ public interface Unit{
 	int getPosition();
 	void setPosition(Integer uniquePosition);
 	int getHealth();
-	boolean isAlive();
+	boolean isDead();
 
 	// actions in scene which an unit MAY do:
 	void doYourTurn();
 
 	// simple things which an unit CAN do :
-	void beHarmedBy(final int loss);
+	//be harmed from enemy with loss
+	void beHarmedFromWith(final Unit enemy, final int loss);
+
 }
 

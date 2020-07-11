@@ -2,6 +2,7 @@ package units.spell;
 
 import game.MagicianCharacter;
 import game.Scene;
+import units.Magician;
 
 //Мигрень - наносит урон всем магам.
 public class MigraineAllMagicians extends Spell{
@@ -13,7 +14,7 @@ public class MigraineAllMagicians extends Spell{
 	public void cast(final MagicianCharacter mag){
 		Scene.getUnits().iterator().forEachRemaining(enemy -> {
 			//for all! mags, and no exception for itself!
-			if(Scene.isUnitMagician(enemy)){
+			if(enemy instanceof Magician){
 				mag.harmBySpell(enemy);
 			}
 		});

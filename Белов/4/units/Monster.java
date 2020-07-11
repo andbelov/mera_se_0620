@@ -15,8 +15,10 @@ public class Monster extends MonsterCharacter{
 		final var values = MonsterAction.values();
 		return values[getRandom(values.length)];
 	}
+	@SuppressWarnings("unused")
 	@Override
 	public void move(){}
+	@SuppressWarnings({"EmptyMethod", "unused"})
 	@Override
 	protected void defend(){}
 }

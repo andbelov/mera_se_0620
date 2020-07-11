@@ -5,6 +5,7 @@ import static game.Unit.PropertyType.HARM;
 public abstract class MonsterCharacter extends Character{
 	protected enum MonsterAction{FIGHT}
 	protected abstract MonsterAction chooseActionToDo();
+	@SuppressWarnings({"SwitchStatementWithTooFewBranches", "unused"})
 	protected void doSpecificAct(){
 		switch(chooseActionToDo()){
 			case FIGHT -> fight();
@@ -20,6 +21,7 @@ public abstract class MonsterCharacter extends Character{
 				+ " на поз. " + getPosition() + " --");
 		harm(enemy, getPropertyValue(HARM));
 	}
+	@SuppressWarnings("unused")
 	@Override
 	protected void defend(){
 	}
