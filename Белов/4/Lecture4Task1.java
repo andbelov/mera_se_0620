@@ -8,83 +8,127 @@ class Lecture4Task1{
 	private static void test2(){
 	}
 	private static void task(){
-		System.out.println("=======================================");
+		System.out.println("\n=======================================");
 		System.out.println("CREATE SCENE");
 		Scene.create();
-		System.out.println("=======================================");
+		System.out.println("\n=======================================");
 		System.out.println("RUN GAME");
 		Scene.run();
-		System.out.println("=======================================");
+		System.out.println("\n=======================================");
 		System.out.println("SHOW RESULT");
 		Scene.showResult();
 	}
 }
 
 /* output:
- =======================================
+=======================================
 CREATE SCENE
-Создаю 8 юнитов
-Created Monster "Monster0" located 0 health 10
-У нового мага будет 1 страничная книга заклинаний:
-ChainLightningAllOthers
-Created Magician "Magician1" located 1 health 4
-Created Monster "Monster2" located 2 health 13
-Created Monster "Monster3" located 3 health 5
-У нового мага будет 1 страничная книга заклинаний:
+Создаю 6 юнитов
+
+-- new unit --
+У нового мага будет 3 страничная книга заклинаний:
 MigraineAllMagicians
-Created Magician "Magician4" located 4 health 0
-Created Monster "Monster5" located 7 health 12
-Created Monster "Monster6" located 8 health 12
+TouchFireNeighbors
+StrikeLightningOne
+Created Magician "Magician0" located 8 health 0
+
+-- new unit --
 У нового мага будет 2 страничная книга заклинаний:
 FireWallEvenPositions
-ChaseAllMonsters
-Created Magician "Magician7" located 9 health 0
+MigraineAllMagicians
+Created Magician "Magician1" located 2 health 4
+
+-- new unit --
+У нового мага будет 3 страничная книга заклинаний:
+MigraineAllMagicians
+FireWallEvenPositions
+ChainLightningAllOthers
+Created Magician "Magician2" located 3 health 5
+
+-- new unit --
+У нового мага будет 2 страничная книга заклинаний:
+HealMyself
+MigraineAllMagicians
+Created Magician "Magician3" located 4 health 1
+
+-- new unit --
+У нового мага будет 1 страничная книга заклинаний:
+HealMyself
+Created Magician "Magician4" located 5 health 2
+
+-- new unit --
+Created Monster "Monster5" located 6 health 12
+
 =======================================
 RUN GAME
---- game turn 1 ---
-Monster0 стоит на поз. 0 и атакует Magician4 на поз. 4 на 7 единиц урона. Теперь у него -7 здоровья
-Magician4 убит!!!!!!!!!!!!
-Маг Magician1 читает заклинание ChainLightningAllOthers
-Маг Magician1 нанес урон Monster0 на 2. Теперь у него 8 здоровья
-Маг Magician1 нанес урон Monster2 на 2. Теперь у него 11 здоровья
-Маг Magician1 нанес урон Monster3 на 2. Теперь у него 3 здоровья
-Маг Magician1 нанес урон Magician4 на 2. Теперь у него -9 здоровья
-Magician4 убит!!!!!!!!!!!!
-Маг Magician1 нанес урон Monster5 на 2. Теперь у него 10 здоровья
-Маг Magician1 нанес урон Monster6 на 2. Теперь у него 10 здоровья
-Маг Magician1 нанес урон Magician7 на 2. Теперь у него -2 здоровья
-Magician7 убит!!!!!!!!!!!!
-Monster2 стоит на поз. 2 и атакует Monster5 на поз. 7 на 5 единиц урона. Теперь у него 5 здоровья
-Monster3 стоит на поз. 3 и атакует Monster0 на поз. 0 на 7 единиц урона. Теперь у него 1 здоровья
-Monster5 стоит на поз. 7 и атакует Monster2 на поз. 2 на 5 единиц урона. Теперь у него 6 здоровья
-Monster6 стоит на поз. 8 и атакует Monster3 на поз. 3 на 6 единиц урона. Теперь у него -3 здоровья
-Monster3 убит!!!!!!!!!!!!
---- game turn 2 ---
-Monster0 стоит на поз. 0 и атакует Monster2 на поз. 2 на 7 единиц урона. Теперь у него -1 здоровья
-Monster2 убит!!!!!!!!!!!!
-Маг Magician1 читает заклинание ChainLightningAllOthers
-Маг Magician1 нанес урон Monster0 на 1. Теперь у него 0 здоровья
-Маг Magician1 нанес урон Monster2 на 1. Теперь у него -2 здоровья
-Monster2 убит!!!!!!!!!!!!
-Маг Magician1 нанес урон Monster3 на 1. Теперь у него -4 здоровья
-Monster3 убит!!!!!!!!!!!!
-Маг Magician1 нанес урон Magician4 на 1. Теперь у него -10 здоровья
-Magician4 убит!!!!!!!!!!!!
-Маг Magician1 нанес урон Monster5 на 1. Теперь у него 4 здоровья
-Маг Magician1 нанес урон Monster6 на 1. Теперь у него 9 здоровья
-Маг Magician1 нанес урон Magician7 на 1. Теперь у него -3 здоровья
-Magician7 убит!!!!!!!!!!!!
-Monster5 стоит на поз. 7 и атакует Magician1 на поз. 1 на 5 единиц урона. Теперь у него -1 здоровья
+
+--- game turn 1 --- В живых сейчас 6
+
+-- ☻ Маг Magician0 на поз. 8 -- читает заклинание TouchFireNeighbors
+
+-- ☻ Маг Magician1 на поз. 2 -- читает заклинание MigraineAllMagicians
+, решил напасть на Magician0, на поз. 8
+, с уроном 1. Здоровье врага было 0, теперь -1
+Magician0 убит!!!!!!!!!!!!
+, стал МАЗОХИСТОМ
+, решил напасть на Magician1, на поз. 2
+, с уроном 1. Здоровье врага было 4, теперь 3
+, решил напасть на Magician2, на поз. 3
+, с уроном 1. Здоровье врага было 5, теперь 4
+, решил напасть на Magician3, на поз. 4
+, с уроном 1. Здоровье врага было 1, теперь 0
+, решил напасть на Magician4, на поз. 5
+, с уроном 1. Здоровье врага было 2, теперь 1
+
+-- ☻ Маг Magician2 на поз. 3 -- читает заклинание FireWallEvenPositions
+, решил напасть на Magician0, на поз. 8
+, но враг уже мерт ...
+, решил напасть на Magician1, на поз. 2
+, с уроном 1. Здоровье врага было 3, теперь 2
+, решил напасть на Magician3, на поз. 4
+, с уроном 2. Здоровье врага было 0, теперь -2
+Magician3 убит!!!!!!!!!!!!
+, решил напасть на Monster5, на поз. 6
+, с уроном 1. Здоровье врага было 12, теперь 11
+
+-- ☻ Маг Magician4 на поз. 5 -- читает заклинание HealMyself
+Маг Magician4 исцелен на 1. Здоровье: 1 -> 2
+
+-- ▼ Монстр Monster5 на поз. 6 --
+, решил напасть на Magician2, на поз. 3
+, с уроном 7. Здоровье врага было 4, теперь -3
+Magician2 убит!!!!!!!!!!!!
+
+--- game turn 2 --- В живых сейчас 3
+
+-- ☻ Маг Magician1 на поз. 2 -- читает заклинание MigraineAllMagicians
+, стал МАЗОХИСТОМ
+, решил напасть на Magician1, на поз. 2
+, с уроном 1. Здоровье врага было 2, теперь 1
+, решил напасть на Magician4, на поз. 5
+, с уроном 2. Здоровье врага было 2, теперь 0
+
+-- ☻ Маг Magician4 на поз. 5 -- читает заклинание HealMyself
+Маг Magician4 исцелен на 1. Здоровье: 0 -> 1
+
+-- ▼ Монстр Monster5 на поз. 6 --
+, решил напасть на Magician1, на поз. 2
+, с уроном 7. Здоровье врага было 1, теперь -6
 Magician1 убит!!!!!!!!!!!!
-Monster6 стоит на поз. 8 и атакует Monster5 на поз. 7 на 6 единиц урона. Теперь у него -2 здоровья
-Monster5 убит!!!!!!!!!!!!
---- game turn 3 ---
-Monster0 стоит на поз. 0 и атакует Monster6 на поз. 8 на 7 единиц урона. Теперь у него 2 здоровья
-Monster6 стоит на поз. 8 и атакует Monster0 на поз. 0 на 6 единиц урона. Теперь у него -6 здоровья
-Monster0 убит!!!!!!!!!!!!
+
+--- game turn 3 --- В живых сейчас 2
+
+-- ☻ Маг Magician4 на поз. 5 -- читает заклинание HealMyself
+Маг Magician4 исцелен на 1. Здоровье: 1 -> 2
+
+-- ▼ Монстр Monster5 на поз. 6 --
+, решил напасть на Magician4, на поз. 5
+, с уроном 7. Здоровье врага было 2, теперь -5
+Magician4 убит!!!!!!!!!!!!
+
 =======================================
 SHOW RESULT
-Победил Monster6 (тип Monster)
+Победил Monster5 (тип Monster)
 */
 /*
 Задание 4. Битвы магов.

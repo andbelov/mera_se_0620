@@ -20,16 +20,7 @@ public abstract class Spell{
 		return classes;
 	}
 
-	final static int REMEDY_MIN = 1;
-	final static int REMEDY_MAX = 3;
-	final static int HARM_MIN = 1;
-	final static int HARM_MAX = 3;
-
 	public abstract void cast(MagicianCharacter mag);
 
-	public void tellAboutCast(final MagicianCharacter mag){
-		System.out.println("Маг "+	mag.getName()
-				+" читает заклинание "+this.getName());
-	}
 	public abstract String getName();
 }

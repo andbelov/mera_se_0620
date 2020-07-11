@@ -11,10 +11,12 @@ public class HealMyself extends Spell{
 		return this.getClass().getSimpleName();
 	}
 	public void cast(final MagicianCharacter mag){
-		final var remedy = Util.getRandomInBound(REMEDY_MIN, REMEDY_MAX);
+		final var remedy = Util.getRandomInBound(
+				MagicianCharacter.REMEDY_MIN, MagicianCharacter.REMEDY_MAX);
+		final int prevH = mag.getHealth();
 		mag.remedy(remedy);
 		System.out.println("Маг " + mag.getName()
 				+ " исцелен на " + remedy
-				+ ". Теперь у него " + mag.getHealth() + " здоровья");
+				+ ". Здоровье: " + prevH + " -> " + mag.getHealth());
 	}
 }
