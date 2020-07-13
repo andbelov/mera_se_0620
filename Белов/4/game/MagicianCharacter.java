@@ -24,18 +24,14 @@ public abstract class MagicianCharacter extends Character{
 	}
 
 	protected abstract Spell chooseSpellToCast();
+	protected final String getTitle(){
+		return "☻ Маг";
+	}
 	@SuppressWarnings("unused")
 	protected void doSpecificAct(){
 		final var spell = chooseSpellToCast();
-		System.out.println("-- ☻ Маг " + getName()
-				+ " на поз. " + getPosition()
-				+ " -- читает заклинание "+spell.getName());
+		System.out.println(" -- читает заклинание "+spell.getName());
 		spell.cast(this);
-	}
-	@SuppressWarnings("unused")
-	@Override
-	protected void defend(){
-
 	}
 	public void remedy(final int remedy){
 		health += remedy;
