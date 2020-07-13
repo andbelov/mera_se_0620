@@ -12,13 +12,29 @@ import static game.Unit.PropertyType.*;
 import static util.Util.getRandomInBound;
 
 @SuppressWarnings({"unused", "EmptyMethod"})
-public abstract class Character implements Unit{
+abstract class Character implements Unit{
 	private static final Class<?>[] classes = {
 			Monster.class,
 			Magician.class,
 			Knight.class,
 			Robber.class,
 	};
+	enum FighterType{
+		MONSTER,
+		MAGICIAN,
+		KNIGHT,
+		ROBBER,
+		Class;
+		Class<? extends Character> getClass(final FighterType ft){
+			return switch(ft){
+				case MONSTER -> Monster .class;
+				case MAGICIAN -> Magician.class;
+				case KNIGHT -> Knight  .class;
+				case ROBBER -> Robber  .class;
+				default -> throw new IllegalStateException("Unexpected value: " + ft);
+			};
+		}
+	}
 	private final int[] properties = new int[PropertyType.values().length];
 	protected String name = "UNKNOWN";
 	protected int health;
@@ -62,14 +78,16 @@ public abstract class Character implements Unit{
 	protected int getPropertyIndex(final String propName){
 		return PropertyType.valueOf(propName).ordinal();
 	}
-	public int getPropertyValue(PropertyType prop){
+	protected int getPropertyValue(PropertyType prop){
 		return properties[prop.ordinal()];
 	}
 	@SuppressWarnings("unused")
-	protected int getPropertyValue(final String propName){
+	int getPropertyValue(final String propName){
 		return properties[getPropertyIndex(propName)];
 	}
 	public void doYourTurn(){
+		System.out.println("-- " + getTitle() + " " + getName()
+				+ " на поз. " + getPosition() + " --");
 		//isDead() has been checked before i call this method
 		for(int actCount = 0; actCount<getPropertyValue(ACTIONS_PER_TURN); ++actCount){
 			move();
@@ -77,15 +95,16 @@ public abstract class Character implements Unit{
 			doSpecificAct();
 			assert(Scene.isActedCorrectly(this));
 			if(isDead()){
+				System.out.print('.');
+				//System.out.println(",но сам уже мертв ...");
 				return;
 			}
 		}
 	}
+	protected abstract String getTitle();
 	// simple things which an unit HAVE to do (inherited methods):
-	protected abstract void doSpecificAct();
+	abstract void doSpecificAct();
 	protected abstract void move();
-	@SuppressWarnings("EmptyMethod")
-	protected abstract void defend();
 
 	// simple things which an unit CAN do :
 	public void beHarmedFromWith(final Unit enemy, final int loss){
@@ -104,11 +123,6 @@ public abstract class Character implements Unit{
 		return u;
 	}
 	protected void harm(final Unit enemy, final int harm){
-		if(this.isDead()){
-			System.out.print('.');
-			//System.out.println(",но сам уже мертв ...");
-			return;
-		}
 		if(this==enemy){
 			System.out.println(", стал МАЗОХИСТОМ");
 		}

@@ -4,16 +4,20 @@ import game.KnightCharacter;
 
 import static util.Util.getRandom;
 
+//in real game i would override this (and other) methods
 public class Knight extends KnightCharacter{
 	@Override
-	public KnightAction chooseActionToDo(){
-		final var values = KnightAction.values();
-		return values[getRandom(values.length)];
+	protected FighterAction chooseActionToDo(){
+		final var values = FighterAction.values();
+		while(true){
+			final var value = values[getRandom(values.length)];
+			switch(value){
+				case FIGHT  : return value;
+				case SCARE  : return value;
+			}
+		}
 	}
-	@SuppressWarnings("unused")
 	@Override
 	public void move(){}
-	@SuppressWarnings({"EmptyMethod", "unused"})
-	@Override
-	protected void defend(){}
+	protected void fight(){ fightRandom();}
 }
