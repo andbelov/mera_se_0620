@@ -25,7 +25,7 @@ public class TheMainButtonOnEvents extends ButtonOnEvents{
 			//"Нажата кнопка в <x,y>" с названием "Кнопка в <x,y>"
 			case BUTTON    -> new Button(new GeneratedButtonOnEvents());
 			//Галка со случайным начальным состоянием			case CheckBox.class:
-			case CHECKBOX  -> new _Checkbox(giveRandom());
+			case CHECKBOX  -> new Checkbox(giveRandom());
 			//Текстовое поле со случайным текстом длины от 1 до 10.
 			//Если в любое тексовое поле введено не число
 			// должно быть выкинуто NumberFormatException

@@ -1,11 +1,11 @@
 package ui.elements;
 
 public abstract class CheckboxOnEvents implements OnEvents{
-    protected abstract void onClick(_Checkbox checkbox);
+    protected abstract void onClick(Checkbox checkbox);
     @Override
     public void onClick(Element element){
-        if(element instanceof _Checkbox){
-            onClick((_Checkbox) element);
+        if(element instanceof Checkbox){
+            onClick((Checkbox) element);
         }
     }
     @Override

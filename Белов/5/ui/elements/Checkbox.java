@@ -1,8 +1,8 @@
 package ui.elements;
 
-public class _Checkbox extends Element implements Clickable {
+public class Checkbox extends Element implements Clickable {
     private boolean checked;
-    public _Checkbox(final boolean checked){
+    public Checkbox(final boolean checked){
         this.checked = checked;
     }
     public boolean isChecked(){
