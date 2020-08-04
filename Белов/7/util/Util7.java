@@ -2,6 +2,7 @@ package util;
 
 import java.util.Random;
 
+@SuppressWarnings("unused")
 public class Util7{
 	static final Random random = new Random();
 	public static <T> Class<?> getRandomClass(Class<?>[] classes){

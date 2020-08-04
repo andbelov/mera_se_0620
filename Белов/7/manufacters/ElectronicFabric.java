@@ -51,19 +51,4 @@ public class ElectronicFabric extends Manufacture{
             default -> throw new IllegalStateException("Unexpected case value");
         };
     }
-
-/* This function moved to abstract class Manufacture, this class extends it.
-    public static void fillShopWithElectronicGoods(Collection<? super ElectronicItem> inventory
-            , final int min, final int max){
-        for(int i=max; min<=--i; ){
-            switch(getRandom(new Class[]{Refrigerator.class, TV.class}.length)){
-                case 0 -> inventory.add(refrigerators[giveRandom(refrigerators.length)]);
-                case 1 -> inventory.add(tvs[giveRandom(tvs.length)]);
-            }
-        }
-        inventory.forEach(item ->
-            System.out.println("Электронная фабрика отправила в магаз " + item.toString())
-        );
-    }
- */
 }

@@ -10,6 +10,6 @@ public abstract class Manufacture{
     protected static void printToShopAdded(final String shopTitle
             , Item item){
         System.out.println("В " + shopTitle + " добавлено: "
-                        + item.toString());
+                        + item.getName());
     }
 }

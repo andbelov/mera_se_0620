@@ -2,8 +2,6 @@ package goods.electronics.inventory;
 
 import goods.electronics.ElectronicItem;
 
-import java.util.Objects;
-
 //		- Refrigerator. Дополнительное свойство - объем морозильной камеры
 public class Refrigerator extends ElectronicItem{
     private static final String TYPE = "холодильник";
@@ -17,23 +15,11 @@ public class Refrigerator extends ElectronicItem{
     public String getType(){
         return TYPE;
     }
-    public int getVolume(){
-        return volume;
-    }
     @Override
     public String toString(){
-        return getName();
-    }
-    @Override
-    public boolean equals(Object o){
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Refrigerator that = (Refrigerator) o;
-        return Objects.equals(volume, that.volume);
-    }
-    @Override
-    public int hashCode(){
-        return Objects.hash(super.hashCode(), volume);
+        return "Refrigerator{" +
+                "TYPE='" + TYPE + '\'' +
+                ", volume=" + volume +
+                "} " + super.toString();
     }
 }

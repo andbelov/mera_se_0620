@@ -14,16 +14,17 @@ public class ElectronicAddictedVisitor extends Visitor implements ShopVisitor{
     @Override
     public void visitShop(final Collection<? extends Item> inventory){
         ElectronicItem theMostPowerfulItem = null;
-        for(Item item1 : inventory){
-            if(!(item1 instanceof ElectronicItem)){
+        for(Item item : inventory){
+            if(!(item instanceof ElectronicItem)){
                 continue;
             }
-            final var electraItem = (ElectronicItem) item1;
+            final var electraItem = (ElectronicItem) item;
             lookAt(electraItem);
+            System.out.println(item.getName() + " с мощностью " + electraItem.getPower());
             if(null == theMostPowerfulItem){
                 theMostPowerfulItem = electraItem;
             }
-            if(theMostPowerfulItem.getPrice() > electraItem.getPower()){
+            if(theMostPowerfulItem.getPower() < electraItem.getPower()){
                 theMostPowerfulItem = electraItem;
             }
         }

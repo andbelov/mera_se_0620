@@ -18,6 +18,8 @@ public class RichVisitor extends Visitor implements ShopVisitor{
             if(0 == counter.incrementAndGet() % 2){
                 pay(item);
                 take(iterator, item);
+            }else{
+                skip();
             }
         }
     }

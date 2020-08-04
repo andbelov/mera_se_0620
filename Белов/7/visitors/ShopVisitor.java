@@ -45,4 +45,8 @@ abstract class Visitor{
         System.out.println(getShoperName()
                 + " обижен отсутствием нужного товара");
     }
+    void skip(){
+        System.out.println(getShoperName()
+                + " .. не понравилась дешевка");
+    }
 }
