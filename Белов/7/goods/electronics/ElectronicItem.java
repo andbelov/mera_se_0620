@@ -1,14 +1,13 @@
 package goods.electronics;
 
-import goods.ShopItem;
+import goods.Item;
 
 import java.util.Objects;
 
 //Создайте два наследника:
 //- ElectronicItem: дополнительное поле потребляемая мощность.
-public abstract class ElectronicItem extends ShopItem{
-    private static final String TYPE = "электроприбор";
-    private int power;
+public abstract class ElectronicItem extends Item{
+    private final int power;
     public ElectronicItem(final String name, final int power){
         super(name);
         this.power = power;

@@ -1,15 +1,14 @@
 package goods.food;
 
-import goods.ShopItem;
+import goods.Item;
 
 import java.util.Objects;
 
 //Создайте два наследника:
 //- FoodItem: дополнительное поля калорийность и срок годности в днях.
-public abstract class FoodItem extends ShopItem{
-    private static final String TYPE = "еда";
-    private int calories;
-    private int expiration;
+public abstract class FoodItem extends Item{
+    private final int calories;
+    private final int expiration;
     public FoodItem(final String name
             , final int calories, final int expiration){
         super(name);

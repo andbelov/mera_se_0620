@@ -1,4 +1,4 @@
-package goods.food.items;
+package goods.food.inventory;
 
 import goods.food.FoodItem;
 
@@ -12,6 +12,10 @@ public class Bread extends FoodItem{
             , final int weight){
         super(name, calories, expiration);
         this.weight = weight;
+    }
+    @Override
+    public String getType(){
+        return TYPE;
     }
     public int getWeight(){
         return weight;

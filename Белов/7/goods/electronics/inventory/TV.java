@@ -1,4 +1,4 @@
-package goods.electronics.items;
+package goods.electronics.inventory;
 
 import goods.electronics.ElectronicItem;
 
@@ -10,6 +10,10 @@ public class TV extends ElectronicItem{
     public TV(final String name, final int power, final int volume){
         super(name, power);
         this.volume = volume;
+    }
+    @Override
+    public String getType(){
+        return TYPE;
     }
     public int getVolume(){
         return volume;

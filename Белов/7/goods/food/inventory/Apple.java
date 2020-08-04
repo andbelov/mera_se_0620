@@ -1,4 +1,4 @@
-package goods.food.items;
+package goods.food.inventory;
 
 import goods.food.FoodItem;
 
@@ -12,6 +12,10 @@ public class Apple extends FoodItem{
             , final Colors color){
         super(name, calories, expiration);
         this.color = color;
+    }
+    @Override
+    public String getType(){
+        return TYPE;
     }
     @Override
     public String toString(){

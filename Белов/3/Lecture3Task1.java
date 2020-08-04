@@ -3,7 +3,7 @@ import java.util.Random;
 /*
     Задание 3. счастливые часы
 Создайте класс FixPriceShop - магазин, который продает товары по одной цене.
-	В классе создайте поле items - массив товаров
+	В классе создайте поле list - массив товаров
 	 (товар - это просто название, тип String)
 	В каждом экземпляре магазина - случайная цена на товары от 50 до 99
 	Но во всех магазинах действует акции "счастливый час" - время,
@@ -72,10 +72,10 @@ class Lecture3Task1{
 			System.out.println("A new buyer" + (isBuyerCrazy?" (crazy!)":""));
 			for(var sh: shops){
 				final int hour = FixPriceShop.getRandomHour();
-				//i understood right if all shops have the same items[] set?
-				// so i use static for items and "FixPriceShop.func()"
+				//i understood right if all shops have the same list[] set?
+				// so i use static for list and "FixPriceShop.func()"
 				// if not i would use not static and a FixPriceShop instance
-				// as "sh.func()" to access each shop items
+				// as "sh.func()" to access each shop list
 
 				final int itemInd = Util.getRandom(FixPriceShop.getItems().length);
 				final String item = isBuyerCrazy ? "\"item for a crazy last buyer\""
@@ -83,7 +83,7 @@ class Lecture3Task1{
 				final int priceForBuyer = sh.checkItemPrice(item, hour);
 				System.out.println(" went at a shop at " + (hour>=10?"":" ") + hour
 						+ " and " + (0>priceForBuyer? "COULD NOT buy":"bought") + " a " + item + "\twith price " + priceForBuyer
-						+ ", note: regular price for all items in this store " + sh.getPrice()
+						+ ", note: regular price for all list in this store " + sh.getPrice()
 				);
 			}
 		}
@@ -175,29 +175,29 @@ But they went to the shops at different hours, when the discount may not act
 The happy day hours are from 14 to 17
 -------------------------------
 A new buyer
- went at a shop at 18 and bought a Tv set	with price 96, note: regular price for all items in this store 96
- went at a shop at 17 and bought a Camera	with price 72, note: regular price for all items in this store 72
- went at a shop at 18 and bought a Tv set	with price 53, note: regular price for all items in this store 53
+ went at a shop at 18 and bought a Tv set	with price 96, note: regular price for all list in this store 96
+ went at a shop at 17 and bought a Camera	with price 72, note: regular price for all list in this store 72
+ went at a shop at 18 and bought a Tv set	with price 53, note: regular price for all list in this store 53
 -------------------------------
 A new buyer
- went at a shop at  6 and bought a Phone	with price 96, note: regular price for all items in this store 96
- went at a shop at 16 and bought a Camera	with price 36, note: regular price for all items in this store 72
- went at a shop at  8 and bought a Tv set	with price 53, note: regular price for all items in this store 53
+ went at a shop at  6 and bought a Phone	with price 96, note: regular price for all list in this store 96
+ went at a shop at 16 and bought a Camera	with price 36, note: regular price for all list in this store 72
+ went at a shop at  8 and bought a Tv set	with price 53, note: regular price for all list in this store 53
 -------------------------------
 A new buyer
- went at a shop at 14 and bought a Camera	with price 48, note: regular price for all items in this store 96
- went at a shop at  4 and bought a Camera	with price 72, note: regular price for all items in this store 72
- went at a shop at 15 and bought a Tv set	with price 26, note: regular price for all items in this store 53
+ went at a shop at 14 and bought a Camera	with price 48, note: regular price for all list in this store 96
+ went at a shop at  4 and bought a Camera	with price 72, note: regular price for all list in this store 72
+ went at a shop at 15 and bought a Tv set	with price 26, note: regular price for all list in this store 53
 -------------------------------
 A new buyer
- went at a shop at 16 and bought a Notepad	with price 48, note: regular price for all items in this store 96
- went at a shop at  8 and bought a Camera	with price 72, note: regular price for all items in this store 72
- went at a shop at  8 and bought a Phone	with price 53, note: regular price for all items in this store 53
+ went at a shop at 16 and bought a Notepad	with price 48, note: regular price for all list in this store 96
+ went at a shop at  8 and bought a Camera	with price 72, note: regular price for all list in this store 72
+ went at a shop at  8 and bought a Phone	with price 53, note: regular price for all list in this store 53
 -------------------------------
 A new buyer (crazy!)
- went at a shop at 23 and COULD NOT buy a "item for a crazy last buyer"	with price -1, note: regular price for all items in this store 96
- went at a shop at 19 and COULD NOT buy a "item for a crazy last buyer"	with price -1, note: regular price for all items in this store 72
- went at a shop at  8 and COULD NOT buy a "item for a crazy last buyer"	with price -1, note: regular price for all items in this store 53
+ went at a shop at 23 and COULD NOT buy a "item for a crazy last buyer"	with price -1, note: regular price for all list in this store 96
+ went at a shop at 19 and COULD NOT buy a "item for a crazy last buyer"	with price -1, note: regular price for all list in this store 72
+ went at a shop at  8 and COULD NOT buy a "item for a crazy last buyer"	with price -1, note: regular price for all list in this store 53
 test2()
 -------------- [3 and 6]
 h=0, res=false

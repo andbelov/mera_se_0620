@@ -1,4 +1,4 @@
-package goods.electronics.items;
+package goods.electronics.inventory;
 
 import goods.electronics.ElectronicItem;
 
@@ -7,11 +7,15 @@ import java.util.Objects;
 //		- Refrigerator. Дополнительное свойство - объем морозильной камеры
 public class Refrigerator extends ElectronicItem{
     private static final String TYPE = "холодильник";
-    private int volume;
+    private final int volume;
     public Refrigerator(final String name
             , final int power, final int volume){
         super(name, power);
         this.volume = volume;
+    }
+    @Override
+    public String getType(){
+        return TYPE;
     }
     public int getVolume(){
         return volume;

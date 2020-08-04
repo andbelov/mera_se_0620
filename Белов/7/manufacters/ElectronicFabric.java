@@ -1,10 +1,9 @@
 package manufacters;
 
 import goods.electronics.ElectronicItem;
-import goods.electronics.items.Refrigerator;
-import goods.electronics.items.TV;
-
-import java.util.Collection;
+import goods.electronics.inventory.Refrigerator;
+import goods.electronics.inventory.TV;
+import supervisors.Inventory;
 
 import static util.Util7.giveRandom;
 
@@ -14,56 +13,55 @@ import static util.Util7.giveRandom;
 // или телевизоров с разными свойствами и вывести на экран
 public class ElectronicFabric extends Manufacture{
     private final TV[] tvs = new TV[]{
-        new TV("",    100,10),
-        new TV("",    101,11),
-        new TV("",    102,12),
-        new TV("",    103,13),
-        new TV("",    104,14),
-        new TV("",    105,15),
-        new TV("",    106,16),
-        new TV("",    107,17),
-        new TV("",    108,18),
-        new TV("",    109,19),
+        new TV("Электроника", 300,310),
+        new TV("Шилялис",     301,311),
+        new TV("Сапфир",      302,312),
+        new TV("Кварц",       303,313),
+        new TV("Рекорд",      304,314),
+        new TV("Чайка",       305,315),
+        new TV("Рубин",       306,316),
+        new TV("Фотон",       307,317),
+        new TV("Горизонт",    308,318),
+        new TV("Электрон",    309,319),
     };
     private final Refrigerator[] refrigerators = new Refrigerator[]{
-        new Refrigerator("Свияга",     1000,20),
-        new Refrigerator("Газоаппарат",1001,21),
-        new Refrigerator("Север",      1002,22),
-        new Refrigerator("Морозко",    1003,23),
-        new Refrigerator("ЗИС-Москва", 1004,24),
-        new Refrigerator("Саратов-2",  1005,25),
-        new Refrigerator("Атлант",     1006,26),
-        new Refrigerator("Айсберг",    1007,27),
-        new Refrigerator("Ока",        1008,28),
-        new Refrigerator("ЗИЛ",        1009,29),
-        new Refrigerator("Бирюса",     1010,30),
-        new Refrigerator("Юрюзань",    1011,31),
-        new Refrigerator("Орск",       1012,32),
-        new Refrigerator("Апшерон",    1013,33),
+        new Refrigerator("Свияга",     400,410),
+        new Refrigerator("Газоаппарат",401,411),
+        new Refrigerator("Север",      402,412),
+        new Refrigerator("Морозко",    403,413),
+        new Refrigerator("ЗИС-Москва", 404,414),
+        new Refrigerator("Атлант",     405,415),
+        new Refrigerator("Айсберг",    406,416),
+        new Refrigerator("Ока",        407,417),
+        new Refrigerator("ЗИЛ",        408,418),
+        new Refrigerator("Бирюса",     409,419),
     };
-    public void fillShopWithElectronicGoods(Collection<? super ElectronicItem> items
-            , final String shopTitle, final int min, final int max){
+    public void fillShopWithElectronicGoods(Inventory<? super ElectronicItem> inventory
+            , final int min, final int max){
         for(int i=max; min<=--i; ){
-            addElectronicGoodsTo(items);
+            final ElectronicItem item= produce();
+            inventory.add(item);
+            printToShopAdded(inventory.getTitle(), item);
         }
     }
-    private void addElectronicGoodsTo(Collection<? super ElectronicItem> items){
-        switch(giveRandom(new Class[]{Refrigerator.class, TV.class}.length)){
-            case 0 -> items.add(refrigerators[giveRandom(refrigerators.length)]);
-            case 1 -> items.add(tvs[giveRandom(tvs.length)]);
-        }
+    private ElectronicItem produce(){
+        return switch(giveRandom(new Class[]{Refrigerator.class, TV.class}.length)){
+            case 0 -> refrigerators[giveRandom(refrigerators.length)];
+            case 1 -> tvs[giveRandom(tvs.length)];
+            default -> throw new IllegalStateException("Unexpected case value");
+        };
     }
 
 /* This function moved to abstract class Manufacture, this class extends it.
-    public static void fillShopWithElectronicGoods(Collection<? super ElectronicItem> shop
+    public static void fillShopWithElectronicGoods(Collection<? super ElectronicItem> inventory
             , final int min, final int max){
         for(int i=max; min<=--i; ){
             switch(getRandom(new Class[]{Refrigerator.class, TV.class}.length)){
-                case 0 -> shop.add(refrigerators[giveRandom(refrigerators.length)]);
-                case 1 -> shop.add(tvs[giveRandom(tvs.length)]);
+                case 0 -> inventory.add(refrigerators[giveRandom(refrigerators.length)]);
+                case 1 -> inventory.add(tvs[giveRandom(tvs.length)]);
             }
         }
-        shop.forEach(item ->
+        inventory.forEach(item ->
             System.out.println("Электронная фабрика отправила в магаз " + item.toString())
         );
     }

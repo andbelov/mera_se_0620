@@ -47,4 +47,8 @@ public class Util7{
 	public static char giveRandomNumChar(){
 		return (char)((int)'0' + giveRandom(10));
 	}
+	private static int counter = -1;
+	public static int giveIncrementedCounter(){
+		return ++counter;
+	}
 }

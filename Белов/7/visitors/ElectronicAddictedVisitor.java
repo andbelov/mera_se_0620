@@ -1,6 +1,6 @@
 package visitors;
 
-import goods.ShopItem;
+import goods.Item;
 import goods.electronics.ElectronicItem;
 
 import java.util.Collection;
@@ -10,28 +10,27 @@ import java.util.Collection;
 // с самой большой потребляемой мощностью.
 // "Покупает" - значит на экран выводится надпись "имя_товара куплен по " +
 //        "цена_товара" и товар удаляется из коллекции.
-public class ElectronicAddictedVisitor implements ShopVisitor{
+public class ElectronicAddictedVisitor extends Visitor implements ShopVisitor{
     @Override
-    public void visitShop(final Collection<? extends ShopItem> shopItems){
+    public void visitShop(final Collection<? extends Item> inventory){
         ElectronicItem theMostPowerfulItem = null;
-        for(ShopItem item : shopItems){
-            if(!(item instanceof ElectronicItem)){
+        for(Item item1 : inventory){
+            if(!(item1 instanceof ElectronicItem)){
                 continue;
             }
-            final var electraItem = (ElectronicItem) item;
-            ShopVisitor.lookAt(electraItem);
+            final var electraItem = (ElectronicItem) item1;
+            lookAt(electraItem);
             if(null == theMostPowerfulItem){
                 theMostPowerfulItem = electraItem;
             }
-            if(theMostPowerfulItem.getPrice() < electraItem.getPower()){
+            if(theMostPowerfulItem.getPrice() > electraItem.getPower()){
                 theMostPowerfulItem = electraItem;
             }
         }
         if(null != theMostPowerfulItem){
-            ShopVisitor.buy(theMostPowerfulItem);
-            shopItems.remove(theMostPowerfulItem);
+            buy(inventory, theMostPowerfulItem);
         }else{
-            ShopVisitor.offense();
+            offense();
         }
     }
 }

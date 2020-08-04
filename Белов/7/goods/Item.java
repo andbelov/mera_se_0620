@@ -2,17 +2,14 @@ package goods;
 
 import java.util.Objects;
 
-//оздайте абстрактный класс shop.items.ShopItem с полями: название товара и цена продажи.
-public abstract class ShopItem{
-    private static final String TYPE = "товар";
+//оздайте абстрактный класс shop.inventory.Item с полями: название товара и цена продажи.
+public abstract class Item{
     private final String name;
     private int price;
-    protected ShopItem(final String name){
-        this.name = name;
+    protected Item(final String name){
+        this.name = getType() + " «" + name + "»";
     }
-    public static String getType(){
-        return TYPE;
-    }
+    public abstract String getType();
     public String getName(){
         return name;
     }
@@ -28,9 +25,9 @@ public abstract class ShopItem{
     public boolean equals(Object o){
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ShopItem shopItem = (ShopItem)o;
-        return Objects.equals(name, shopItem.name)
-            && Objects.equals(price, shopItem.price);
+        Item item = (Item)o;
+        return Objects.equals(name, item.name)
+            && Objects.equals(price, item.price);
     }
     @Override
     public int hashCode(){
