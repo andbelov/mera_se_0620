@@ -1,4 +1,4 @@
-package xml.annotations;
+package annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -8,8 +8,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface XmlAnnotationPassword{
-	String encryptedAes128() default "";
-	String encryptedAes256() default "";
-	String underStars() default "Password under stars";
-	String removed() default "";
+	String asis()              default "";
+	String encryptedAes128()   default "";
+	String encryptedAes256();
+	String removed()           default "";
+	String underStars()        default "";
 }

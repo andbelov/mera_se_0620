@@ -1,4 +1,4 @@
-package examples;
+package classesForSerialization;
 
 import xml.examples.XmlAnnotation;
 

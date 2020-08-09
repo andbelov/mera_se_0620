@@ -1,13 +1,14 @@
-import persons.Person;
-import persons.Pet;
-import xml.XmlConvertor;
+import classesForSerialization.Person;
+import classesForSerialization.Pet;
+import serialization.xml.XmlConvertor;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 class Lecture8Task1{
 	public static void main(String[] args)
-			throws IllegalAccessException{
+			throws IllegalAccessException, InvocationTargetException, InstantiationException{
 		System.out.println("==== serializing FROM CLASSES TO XML ====");
 		final String xmlPersons = serializePersons();
 		final String xmlPets = serializePets();
@@ -15,19 +16,22 @@ class Lecture8Task1{
 		System.out.println(xmlPets);
 
 		System.out.println("==== deserializing FROM XML TO CLASSES ====");
-		System.out.println(deserialize(xmlPersons, Person.class));
-		System.out.println(deserialize(xmlPets, Pet.class));
+		for(Object obj: deserialize (xmlPersons, Person.class)){
+			System.out.println(obj);
+		}
+		System.out.println(deserialize(xmlPets, Pet.class).toString());
 	}
 	private static String serializePersons()
 			throws IllegalAccessException{
 		StringBuilder sb = new StringBuilder();
 //1 object:
-		final Person aPerson = new Person("Я", "паролллльь", 999, "Трамп", "Макаронный Бог");
-		sb.append(new XmlConvertor().serialize(aPerson));
+		sb.append(new XmlConvertor().serialize(new Person(
+				"Я", "ТРОЛЛЬ", 999,
+				"Трамп", "Макаронный Бог")));
 //Several objects:
 		List<Person> persons = new ArrayList<>();
-		persons.add(new Person("Ты", "passA", 111));
-		persons.add(new Person("Он", "passB", 222));
+		persons.add(new Person("Ты", "НИКОМУ НЕ СКАЖУ", 111, "Против Трампа", "Бабтист"));
+		persons.add(new Person("Он", "ПАРОЛЬ ДОЛЖЕН БЫТЬ ОЧЕНЬ ДЛИННЫЙ", 222));
 		for(Object o : persons){
 			sb.append(new XmlConvertor().serialize(o));
 		}
@@ -48,13 +52,48 @@ class Lecture8Task1{
 		}
 		return sb.toString();
 	}
-	private static String deserialize(final String serializedText
-			, final Class<?> clazz) throws IllegalAccessException{
+	private static ArrayList<Object> deserialize(final String serializedText
+			, final Class<?> clazz)
+			throws IllegalAccessException, InvocationTargetException, InstantiationException{
 		return (new XmlConvertor()).deserialize(serializedText, clazz);
 	}
 }
 /* output:
-
+==== serializing FROM CLASSES TO XML ====
+<Leader>
+<Name>Я</Name>
+<Password encrypted Aes-256>ԢԠԞԛԛԬ</Password encrypted Aes-256>
+<Age>999</Age>
+<Politic party>Трамп</Politic party>
+</Leader><Leader>
+<Name>Ты</Name>
+<Password encrypted Aes-256>ԝԘԚԞԜԣĠԝԕĠԡԚԐԖԣ</Password encrypted Aes-256>
+<Age>111</Age>
+<Politic party>Против Трампа</Politic party>
+</Leader><Leader>
+<Name>Он</Name>
+<Password encrypted Aes-256>ԟԐԠԞԛԬĠԔԞԛԖԕԝĠԑԫԢԬĠԞԧԕԝԬĠԔԛԘԝԝԫԙ</Password encrypted Aes-256>
+<Age>222</Age>
+<Politic party>no</Politic party>
+</Leader>
+<Cat>
+<Name>Васька</Name>
+<Age>9</Age>
+<Owner>бездомный</Owner>
+</Cat><Cat>
+<Name>Жучка</Name>
+<Age>5</Age>
+<Owner>Ты</Owner>
+</Cat><Cat>
+<Name>Бобик</Name>
+<Age>6</Age>
+<Owner>Он</Owner>
+</Cat>
+==== deserializing FROM XML TO CLASSES ====
+Person{name='Я', pass='ТРОЛЛЬ', age=999, party='Трамп', religion='верю/не верю'}
+Person{name='Ты', pass='НИКОМУ НЕ СКАЖУ', age=111, party='Против Трампа', religion='верю/не верю'}
+Person{name='Он', pass='ПАРОЛЬ ДОЛЖЕН БЫТЬ ОЧЕНЬ ДЛИННЫЙ', age=222, party='no', religion='верю/не верю'}
+[Pet{name='Васька', age=9, owner='бездомный'}, Pet{name='Жучка', age=5, owner='Ты'}, Pet{name='Бобик', age=6, owner='Он'}]
 */
 /*
 Задание 8.Аннотации и рефлексия

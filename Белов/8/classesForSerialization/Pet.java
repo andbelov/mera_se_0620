@@ -1,8 +1,6 @@
-package persons;
+package classesForSerialization;
 
-import xml.annotations.XmlAnnotation;
-import xml.annotations.XmlAnnotationRestricted;
-import xml.annotations.XmlClassName;
+import annotations.*;
 
 @XmlClassName(className = "Cat")
 public class Pet{
@@ -13,7 +11,7 @@ public class Pet{
 	@XmlAnnotationRestricted(tag = "Owner")
 	String owner;
 
-	Pet(){
+	public Pet(){
 	}
 	public Pet(final String name, final int age){
 		this.name = name;
@@ -24,5 +22,13 @@ public class Pet{
 		this.name = name;
 		this.age = age;
 		this.owner= owner;
+	}
+	@Override
+	public String toString(){
+		return "Pet{" +
+				"name='" + name + '\'' +
+				", age=" + age +
+				", owner='" + owner + '\'' +
+				'}';
 	}
 }
