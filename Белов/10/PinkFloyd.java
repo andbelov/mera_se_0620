@@ -4,8 +4,8 @@ import static util.Util10.giveRandom;
 public class PinkFloyd{
 	private final int DX = 0;
 	private final int DY = DX+1;
-	private final int MX = 9; //giveRandomInBound(2, rx);
-	private final int MY = 3; //giveRandomInBound(2, ry);
+	private final int MX = 19; //giveRandomInBound(2, rx);
+	private final int MY = 5; //giveRandomInBound(2, ry);
 	private final int I0 = 0;
 	private final int IX = MX-1;
 	private final int IY = MY-1;
@@ -34,13 +34,13 @@ public class PinkFloyd{
 		m[exitX][exitY][isEntrOnWallX?DX:DY] = false;
 		System.out.println("Entrance:["+entrX + "][" + entrY + "], Exit:[" + exitX + "][" + exitY+"]");
 		genPath();
-		printWalls();
+		//printWalls();
 	}
 	private void initWalls(){
 		for(int x = I0; x < MX; x++){
 			for(int y = I0; y < MY; y++){
-				final boolean b = I0 == x || I0 == y || x == IX || y == IY;
-				m[x][y][0] = m[x][y][1] = b;
+				//final boolean b = I0 == x || I0 == y || x == IX || y == IY;
+				m[x][y][0] = m[x][y][1] = true;
 			}
 		}
 	}
@@ -68,39 +68,50 @@ public class PinkFloyd{
 		hasBeen[xC][yC] = true;
 		int xO = xC;
 		int yO = yC;
-		int count = 3;
-		while(0<=--count){
-		//System.out.println(":["+x + "][" + y + "]");
+		int count = 0;
+		while(20>count++){
+			//if(count>5 && count <10)
+				printWalls(count);
+			//System.out.println("===============");
+			//System.out.println("BEFORE:["+xC + "][" + yC + "]");
 			final boolean yyR = giveRandom();
 			final boolean stepR = giveRandom();
+			boolean isMoved = false;
 			BreakLabel:
 			for(int i=2; --i>=0; ){
 				final boolean yy = (0 == i) ^ yyR;
 				for(int j=2; --j>=0; ){
-					final int step = ((0 == i) ^ stepR) ? 1 : -1;
-					final int xN = yy?xC:xC+step;
-					final int yN = yy?yC+step:yC;
+					final int step = ((0 == j) ^ stepR) ? 1 : -1;
+					final int xN = xC + (yy?0:+step);
+					final int yN = yC + (yy?step:0);
+					//System.out.println("yy:"+yy + " " + "step:" + step);
 					if(isOutOfBorder(xN, yN)){
 						continue;
 					}
 					if(!hasBeen[xN][yN]){
+						assert(isWall(yy,step));
 						deegWall(yy,step);
+						hasBeen[xN][yN] = true;
 						xO = xC;
 						yO = yC;
 						xC = xN;
 						yC = yN;
+						isMoved = true;
+						//System.out.println("NEW:["+xC + "][" + yC + "]");
 						break BreakLabel;
 					}
 				}
 			}
-			xC = xO;
-			yC = yO;
-			printWalls();
-		//System.out.println(":["+x + "][" + y + "]");
+			if(!isMoved){
+				xC = xO;
+				yC = yO;
+				//System.out.println("BACK:["+xC + "][" + yC + "]");
+			}
 		}
 	}
 
-	public void printWalls(){
+	public void printWalls(int count){
+		final boolean compact = false;
 		for(int y = I0; y < MY; y++){
 			sb.setLength(0);
 			/*for(int x = I0; x < MX; x++){
@@ -109,20 +120,21 @@ public class PinkFloyd{
 			sb.append('|');*/
 			for(int x = I0; x < MX; x++){
 				sb.append(giveCharForPrintMap(x, false, y, false));
-				if(IX==x){
-					//continue;//
+				if(compact || IX==x){
+					continue;//
 				}
 				sb.append(giveCharForPrintMap(x, true, y, false));
 			}
+			if(I0==y) sb.append(count);
 			System.out.println(sb);
-			if(IY==y){
-				//continue;//
+			if(compact || IY==y){
+				continue;//
 			}
 			sb.setLength(0);
 			for(int x = I0; x < MX; x++){
 				sb.append(giveCharForPrintMap(x, false, y, true));
-				if(IX==x){
-					//continue;//
+				if(compact || IX==x){
+					continue;//
 				}
 				sb.append(giveCharForPrintMap(x, true, y, true));
 			}
