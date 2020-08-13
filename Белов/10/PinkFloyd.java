@@ -44,7 +44,7 @@ class PinkFloyd{
 		digWall(dEntrance, step(isEntrZeroWall));
 		m[xC][yC][HB] = true;
 		printWalls(0);
-		digPath();
+		final Stack<int[]> path = digPath();
 	}
 	private void initWalls(){
 		for(int x = I0; x < MX; x++){
@@ -83,8 +83,9 @@ class PinkFloyd{
 				+ (isOutOfBorder(x,y) ? " is OutOfBorder"
 				: "="+(m[x][y][DX]?'1':'0')+'/'+(m[x][y][DY]?'1':'0')+','+(m[x][y][HB]?'1':'0')));
 	}
-	public void digPath(){
+	public Stack<int[]> digPath(){
 		Stack<int[]> moves = new Stack<>();
+		Stack<int[]> path  = new Stack<>();
 		int count = 0;
 		do{
 			//if(count>10 && count <20)
@@ -112,27 +113,28 @@ class PinkFloyd{
 					}
 					digWall(d, s);
 					m[xN][yN][HB] = true;
+					final int[] move1 = new int[2];
+					move1[0]=xC; move1[1]=yC;
+					moves.push(move1);
+					xC = xN;
+					yC = yN;
+					isMoved = true;
 					if(exitX==xN && exitY==yN){
 						System.out.println("Exit found, move back");
+						path.addAll(moves);
 						isMoved = false;
-					}else{
-						final int[] move1 = new int[2];
-						move1[0]=xC; move1[1]=yC;
-						moves.push(move1);
-						isMoved = true;
-						xC = xN;
-						yC = yN;
 					}
 					break BREAK;
 				}
 			}
 			if(!isMoved && moves.size()>0){
-				System.out.println("moving back");
+				//System.out.println("moving back");
 				final int[] move1 = moves.pop();
 				xC=move1[0]; yC=move1[1];
 			}
 			printWalls(count);
 		}while(++count<99999 && moves.size()>0);
+		return path;
 	}
 
 	public void printWalls(int count){
