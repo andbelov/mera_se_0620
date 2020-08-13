@@ -71,29 +71,32 @@ class PinkFloyd{
 		}
 		printWalls(0);
 	}
+	private void printCurrent(final String str){ printPoint(str, xC, yC); }
+	private void printPoint(final String str, final int x, final int y){
+		System.out.println(str + " ["+x + "][" + y + "]"
+				+ (m[x][y][DX]?'1':'0') +(m[x][y][DY]?'1':'0') +(m[x][y][HB]?'1':'0') );
+	}
 	public void genPath(){
 		int xO = xC;
 		int yO = yC;
 		int count = 0;
-		while(2 > count++){
+		while(1 > count++){
 			//if(count>10 && count <20)
 			//System.out.println("===============");
-			System.out.println("C:" + "["+xC + "][" + yC + "]"
-					+ (m[xC][yC][DX]?'1':'0') +(m[xC][yC][DY]?'1':'0') +(m[xC][yC][HB]?'1':'0') );
+			printCurrent("Beg:");
 			final int dRand = giveRandom(2);
-			final int stepRand = -1 + 2*giveRandom(2);
+			final int sRand = -1 + 2*giveRandom(2);
 			boolean isMoved = false;
 			BreakLabel:
-			for(int d=2; --d>=0; ){
-				for(int s=-1; s<=1; s+=2){
-					final int xN = xC - (DX==(d^dRand)?s*stepRand:0);//11;1-1;01;0-1;
-					final int yN = yC - (DY==(d^dRand)?s*stepRand:0);
-					System.out.println("N d:"+d + " " + "s:" + s
-							+ " ["+xN + "][" + yN + "]");
-					System.out.println("QQQQQQQ " + (DX==(d^dRand)) + "/" + (DY==(d^dRand))
-							+ " s=" +s*stepRand + " r=" + (DY==(d^dRand)?s*stepRand:0));
-/*					                                                                        0));
-					//System.out.println((d^dyRand) + " " + (s*stepRand));
+			for(int dInd=2; --dInd>=0; ){
+				final int d = (dRand==dInd)?1:0;
+				for(int sInd=-1; sInd<=1; sInd+=2){
+					final int s = sInd*sRand;
+					final int xN = xC + (DX==d?s:0);//11;1-1;01;0-1;
+					final int yN = yC + (DY==d?s:0);
+					System.out.println("shift "+ (DX==d?'x':' ')
+							+ (DY==d?'y':' ') + " with " +s);
+					printPoint("New:", xN, yN);
 					if(isOutOfBorder(xN, yN)){
 						System.out.println("border");
 						continue;
@@ -103,19 +106,15 @@ class PinkFloyd{
 						continue;
 					}
 					digWall(d, s);
-					System.out.println("D:" + "["+xC + "][" + yC + "]"
-							+ (m[xC][yC][DX]?'1':'0') +(m[xC][yC][DY]?'1':'0') +(m[xC][yC][HB]?'1':'0') );
-					//System.out.println("D:" + "["+xN + "][" + yC + "]"
-					// + (m[xC][yC][DX]?'1':'0') +(m[xC][yC][DY]?'1':'0') +(m[xC][yC][HB]?'1':'0') );
-					xO = xC;
+					printWalls(0);
+					/*xO = xC;
 					yO = yC;
 					xC = xN;
 					yC = yN;
 					m[xC][yC][HB] = true;
 					isMoved = true;
-					System.out.println("M:" + "["+xC + "][" + yC + "]" + (m[xC][yC][DX]?'1':'0') +(m[xC][yC][DY]?'1':'0') +(m[xC][yC][HB]?'1':'0') );
-					break BreakLabel;
- */
+					break BreakLabel;*/
+					//printCurrent("Moved:");
 				}
 			}
 			if(!isMoved){
@@ -177,22 +176,17 @@ class PinkFloyd{
 	boolean isOutOfBorder(final int x, final int y){
 		return I0 > x || x >= MX || I0 > y || y >= MY;
 	}
-	boolean isWall(final int d, final int sh){
-		return m[xCoor(d, sh)][yCoor(d, sh)][d];
-	}
-	void digWall(final int d, final int sh){
-		if(!isWall(d, sh)) throw new AssertionError("xC:"+xC+"yC:"+yC+"!isWall("+d+","+sh+")");
-		m[xCoor(d, sh)][yCoor(d, sh)][d] = false;
-	}
-	int xCoor(final int d, final int sh){
-		return xC+(DX==d?sh:0);
-	}
-	int yCoor(final int d, final int sh){
-		return yC+(DX==d?sh:0);
-	}
-	/*void isHasBeen(final boolean yy, final int step){
-		m[yy?xC:xC+step][yy?yC+step:yC][yy?DY:DX] = false;
+	/*boolean isWall(final int d, final int sh){
+		return m[xWall(d, sh)][yWall(d, sh)][d];
 	}*/
+	void digWall(final int d, final int sh){
+		//if(!isWall(d, sh)) throw new AssertionError("xC:"+xC+"yC:"+yC+"!isWall("+d+","+sh+")");
+		if(DX == d){
+			m[xC+(sh+1)/2][yC][DX] = false;
+		}else{
+			m[xC][yC+(sh+1)/2][DY] = false;
+		}
+	}
 
 	boolean isLefWall(final int x, final int y){
 		return m[x][y][DX];
@@ -244,9 +238,9 @@ class PinkFloyd{
 			if(yy){
 				if(xC == x && yC == y) return 'C';
 				//return (m[x][y][HB])?'B':'b';
-				//return b ? (r ? '+' : '[') : (r ? 'ˉ' : 'x'); //◌ free cell space
+				return b ? (r ? '+' : '[') : (r ? 'ˉ' : '∙'); //◌ free cell space
 				//if(entrX==x && entrY==y) return 'e';
-				return '∙';//∙∙
+				//return '∙';//∙∙
 			}else{// !yy
 				return r ? '─' : ' ';
 			}
