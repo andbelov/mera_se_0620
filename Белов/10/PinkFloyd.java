@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 import static util.Util10.*;
 
 @SuppressWarnings("SpellCheckingInspection")
@@ -5,8 +7,8 @@ class PinkFloyd{
 	private final int DX = 0;
 	private final int DY = 1;
 	private final int HB = 2;
-	private final int MX = 20; //giveRandomInBound(2, rx);
-	private final int MY = 5; //giveRandomInBound(2, ry);
+	private final int MX = 4; //giveRandomInBound(2, rx);
+	private final int MY = 4; //giveRandomInBound(2, ry);
 	private final int I0 = 0;
 	private final int IX = MX - 1;
 	private final int IY = MY - 1;
@@ -21,24 +23,28 @@ class PinkFloyd{
 	private final StringBuilder sb = new StringBuilder();
 
 	PinkFloyd(){
+		//setSeed(1);
 		//if cell in maze true then it's a wall;
-		final boolean isEntrOnWallX = giveRandom();
-		final boolean isEntrWallOnZero = giveRandom();
-		entrX = isEntrOnWallX ? giveRandom(MX) : isEntrWallOnZero ? I0 : IX;
-		entrY = isEntrOnWallX ? isEntrWallOnZero ? I0 : IY : giveRandom(MY);
-		exitX = isEntrOnWallX ? giveRandom(MX) : !isEntrWallOnZero ? I0 : IX;
-		exitY = isEntrOnWallX ? !isEntrWallOnZero ? I0 : IY : giveRandom(MY);
-		m[entrX][entrY][isEntrOnWallX ? DX : DY] = false;
-		m[exitX][exitY][isEntrOnWallX ? DX : DY] = false;
-		xC = 1;//entrX;
-		yC = 1;//entrY;
-		m[xC][yC][HB] = true;
-
-		//System.out.println("Entrance:["+entrX + "][" + entrY + "], Exit:[" + exitX + "][" + exitY+"]");
 		initWalls();
 		//testWalls();
 		//randomWalls();
-		genPath();
+		final int dEntrance = giveRandom(2);
+		final boolean isEntrZeroWall = giveRandom();
+		System.out.println("dEntrance:"+dEntrance+" isEntrZeroWall:"+isEntrZeroWall);
+		entrX = isDirX(dEntrance) ? giveBorder(dEntrance,  isEntrZeroWall)  : giveRandom(IX) ;
+		entrY = isDirX(dEntrance) ? giveRandom(IY) : giveBorder(dEntrance,   isEntrZeroWall) ;
+		exitX = isDirX(dEntrance) ? giveBorder(dEntrance,  !isEntrZeroWall) : giveRandom(IX) ;
+		exitY = isDirX(dEntrance) ? giveRandom(IY) : giveBorder(dEntrance,  !isEntrZeroWall) ;
+		System.out.println("Entrance:["+entrX + "][" + entrY + "], Exit:[" + exitX + "][" + exitY+"]");
+		xC = exitX;
+		yC = exitY;
+		digWall(dEntrance, giveBorder(dEntrance, !isEntrZeroWall));
+		xC = entrX;
+		yC = entrY;
+		digWall(dEntrance, giveBorder(dEntrance, isEntrZeroWall));
+		m[xC][yC][HB] = true;
+		printWalls(0);
+		//digPath();
 	}
 	private void initWalls(){
 		for(int x = I0; x < MX; x++){
@@ -77,11 +83,10 @@ class PinkFloyd{
 				+ (isOutOfBorder(x,y) ? " is OutOfBorder"
 				: "="+(m[x][y][DX]?'1':'0')+'/'+(m[x][y][DY]?'1':'0')+','+(m[x][y][HB]?'1':'0')));
 	}
-	public void genPath(){
-		int xO = xC;
-		int yO = yC;
+	public void digPath(){
+		Stack<int[]> moves = new Stack<>();
 		int count = 0;
-		while(22 > count++){
+		do{
 			//if(count>10 && count <20)
 			//System.out.println("===============");
 			printCurrent("Beg:");
@@ -108,10 +113,13 @@ class PinkFloyd{
 					}
 					digWall(d, s);
 					//printWalls(0);
-					xO = xC;
-					yO = yC;
+					//xO = xC;
+					//yO = yC;
 					xC = xN;
 					yC = yN;
+					final int[] move1 = new int[2];
+					move1[0]=xC; move1[1]=yC;
+					moves.push(move1);
 					m[xC][yC][HB] = true;
 					isMoved = true;
 					break BreakLabel;
@@ -119,12 +127,12 @@ class PinkFloyd{
 				}
 			}
 			if(!isMoved){
-				xC = xO;
-				yC = yO;
 				System.out.println("BACK");
+				final int[] move1 = moves.pop();
+				xC=move1[0]; yC=move1[1];
 			}
 			printWalls(count);
-		}
+		}while(++count<3 && moves.size()>0);
 	}
 
 	public void printWalls(int count){
@@ -188,6 +196,18 @@ class PinkFloyd{
 			m[xC][yC+(sh+1)/2][DY] = false;
 		}
 	}
+	int not(final int d){
+		return 0==d ? 1 : 0;
+	}
+	boolean isDirX(final int d){
+		return DX==d;
+	}
+	boolean isDirY(final int d){
+		return DX==d;
+	}
+	int giveBorder(final int d, final boolean isZero){
+		return isZero ? I0 : DX==d ? IX-1 : IY-1;
+	}
 
 	boolean isLefWall(final int x, final int y){
 		return m[x][y][DX];
@@ -237,7 +257,9 @@ class PinkFloyd{
 		final boolean r = m[x][y][DY];
 		if(xx){
 			if(yy){
-				if(xC == x && yC == y) return 'C';
+				//if(xC == x && yC == y) return 'c';
+				if(entrX == x && entrY == y) return 'i';
+				if(exitX == x && exitY == y) return 'o';
 				//return (m[x][y][HB])?'B':'b';
 				return b ? (r ? '+' : '[') : (r ? 'ˉ' : '∙'); //◌ free cell space
 				//if(entrX==x && entrY==y) return 'e';

@@ -4,7 +4,10 @@ import java.util.Random;
 
 @SuppressWarnings("unused")
 public class Util10{
-	static final Random random = new Random(7);
+	private static Random random = new Random();
+	public static void setSeed(final int seed){
+		 random = new Random(seed);
+	}
 	public static <T> Class<?> getRandomClass(Class<?>[] classes){
 		return classes[giveRandom(classes.length)];
 	}
