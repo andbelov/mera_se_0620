@@ -74,13 +74,14 @@ class PinkFloyd{
 	private void printCurrent(final String str){ printPoint(str, xC, yC); }
 	private void printPoint(final String str, final int x, final int y){
 		System.out.println(str + " ["+x + "][" + y + "]"
-				+ (m[x][y][DX]?'1':'0') +(m[x][y][DY]?'1':'0') +(m[x][y][HB]?'1':'0') );
+				+ (isOutOfBorder(x,y) ? " is OutOfBorder"
+				: "="+(m[x][y][DX]?'1':'0')+'/'+(m[x][y][DY]?'1':'0')+','+(m[x][y][HB]?'1':'0')));
 	}
 	public void genPath(){
 		int xO = xC;
 		int yO = yC;
 		int count = 0;
-		while(1 > count++){
+		while(22 > count++){
 			//if(count>10 && count <20)
 			//System.out.println("===============");
 			printCurrent("Beg:");
@@ -97,8 +98,8 @@ class PinkFloyd{
 					System.out.println("shift "+ (DX==d?'x':' ')
 							+ (DY==d?'y':' ') + " with " +s);
 					printPoint("New:", xN, yN);
-					if(isOutOfBorder(xN, yN)){
-						System.out.println("border");
+					if(isOutOfMove(xN, yN)){
+						System.out.println("out of move");
 						continue;
 					}
 					if(m[xN][yN][HB]){
@@ -106,14 +107,14 @@ class PinkFloyd{
 						continue;
 					}
 					digWall(d, s);
-					printWalls(0);
-					/*xO = xC;
+					//printWalls(0);
+					xO = xC;
 					yO = yC;
 					xC = xN;
 					yC = yN;
 					m[xC][yC][HB] = true;
 					isMoved = true;
-					break BreakLabel;*/
+					break BreakLabel;
 					//printCurrent("Moved:");
 				}
 			}
@@ -170,8 +171,8 @@ class PinkFloyd{
 		}
 	}
 
-	boolean isOutOfBorder(final int q, final boolean yy){
-		return I0 > q || (yy ? q >= MY : q >= MX);
+	boolean isOutOfMove(final int x, final int y){
+		return I0 > x || x >= IX || I0 > y || y >= IY;
 	}
 	boolean isOutOfBorder(final int x, final int y){
 		return I0 > x || x >= MX || I0 > y || y >= MY;
