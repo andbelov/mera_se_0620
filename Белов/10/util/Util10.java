@@ -6,7 +6,7 @@ import java.util.Random;
 public class Util10{
 	private static Random random = new Random();
 	public static void setSeed(final int seed){
-		 random = new Random(seed);
+		 random.setSeed(seed);
 	}
 	public static <T> Class<?> getRandomClass(Class<?>[] classes){
 		return classes[giveRandom(classes.length)];

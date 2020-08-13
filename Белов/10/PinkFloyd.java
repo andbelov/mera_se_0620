@@ -7,8 +7,8 @@ class PinkFloyd{
 	private final int DX = 0;
 	private final int DY = 1;
 	private final int HB = 2;
-	private final int MX = 4; //giveRandomInBound(2, rx);
-	private final int MY = 4; //giveRandomInBound(2, ry);
+	private final int MX = 13; //giveRandomInBound(2, rx);
+	private final int MY = 10; //giveRandomInBound(2, ry);
 	private final int I0 = 0;
 	private final int IX = MX - 1;
 	private final int IY = MY - 1;
@@ -23,14 +23,14 @@ class PinkFloyd{
 	private final StringBuilder sb = new StringBuilder();
 
 	PinkFloyd(){
-		//setSeed(1);
+		setSeed(1);
 		//if cell in maze true then it's a wall;
 		initWalls();
 		//testWalls();
 		//randomWalls();
 		final int dEntrance = giveRandom(2);
 		final boolean isEntrZeroWall = giveRandom();
-		System.out.println("dEntrance:"+dEntrance+" isEntrZeroWall:"+isEntrZeroWall);
+		//System.out.println("dEntrance:"+dEntrance+" isEntrZeroWall:"+isEntrZeroWall);
 		entrX = isDirX(dEntrance) ? giveBorder(dEntrance,  isEntrZeroWall)  : giveRandom(IX) ;
 		entrY = isDirX(dEntrance) ? giveRandom(IY) : giveBorder(dEntrance,   isEntrZeroWall) ;
 		exitX = isDirX(dEntrance) ? giveBorder(dEntrance,  !isEntrZeroWall) : giveRandom(IX) ;
@@ -38,13 +38,13 @@ class PinkFloyd{
 		System.out.println("Entrance:["+entrX + "][" + entrY + "], Exit:[" + exitX + "][" + exitY+"]");
 		xC = exitX;
 		yC = exitY;
-		digWall(dEntrance, giveBorder(dEntrance, !isEntrZeroWall));
+		digWall(dEntrance, step(!isEntrZeroWall));
 		xC = entrX;
 		yC = entrY;
-		digWall(dEntrance, giveBorder(dEntrance, isEntrZeroWall));
+		digWall(dEntrance, step(isEntrZeroWall));
 		m[xC][yC][HB] = true;
 		printWalls(0);
-		//digPath();
+		digPath();
 	}
 	private void initWalls(){
 		for(int x = I0; x < MX; x++){
@@ -89,50 +89,50 @@ class PinkFloyd{
 		do{
 			//if(count>10 && count <20)
 			//System.out.println("===============");
-			printCurrent("Beg:");
+			//printCurrent("Beg:");
 			final int dRand = giveRandom(2);
 			final int sRand = -1 + 2*giveRandom(2);
 			boolean isMoved = false;
-			BreakLabel:
+			BREAK:
 			for(int dInd=2; --dInd>=0; ){
 				final int d = (dRand==dInd)?1:0;
 				for(int sInd=-1; sInd<=1; sInd+=2){
 					final int s = sInd*sRand;
 					final int xN = xC + (DX==d?s:0);//11;1-1;01;0-1;
 					final int yN = yC + (DY==d?s:0);
-					System.out.println("shift "+ (DX==d?'x':' ')
-							+ (DY==d?'y':' ') + " with " +s);
-					printPoint("New:", xN, yN);
+					//System.out.println("shift "+ (DX==d?'x':' ') + (DY==d?'y':' ') + " with " +s);
+					//printPoint("New:", xN, yN);
 					if(isOutOfMove(xN, yN)){
-						System.out.println("out of move");
+						//System.out.println("out of move");
 						continue;
 					}
 					if(m[xN][yN][HB]){
-						System.out.println("has been");
+						//System.out.println("has been");
 						continue;
 					}
 					digWall(d, s);
-					//printWalls(0);
-					//xO = xC;
-					//yO = yC;
-					xC = xN;
-					yC = yN;
-					final int[] move1 = new int[2];
-					move1[0]=xC; move1[1]=yC;
-					moves.push(move1);
-					m[xC][yC][HB] = true;
-					isMoved = true;
-					break BreakLabel;
-					//printCurrent("Moved:");
+					m[xN][yN][HB] = true;
+					if(exitX==xN && exitY==yN){
+						System.out.println("Exit found, move back");
+						isMoved = false;
+					}else{
+						final int[] move1 = new int[2];
+						move1[0]=xC; move1[1]=yC;
+						moves.push(move1);
+						isMoved = true;
+						xC = xN;
+						yC = yN;
+					}
+					break BREAK;
 				}
 			}
-			if(!isMoved){
-				System.out.println("BACK");
+			if(!isMoved && moves.size()>0){
+				System.out.println("moving back");
 				final int[] move1 = moves.pop();
 				xC=move1[0]; yC=move1[1];
 			}
 			printWalls(count);
-		}while(++count<3 && moves.size()>0);
+		}while(++count<99999 && moves.size()>0);
 	}
 
 	public void printWalls(int count){
@@ -142,7 +142,7 @@ class PinkFloyd{
 			if(x<10){ sb.append(' ');}
 			sb.append(x);
 		}
-		sb.append('>').append(count);
+		sb.append(',').append(count);
 		System.out.println(sb);
 		for(int y = I0; y < MY; y++){
 			sb.setLength(0);
@@ -198,6 +198,9 @@ class PinkFloyd{
 	}
 	int not(final int d){
 		return 0==d ? 1 : 0;
+	}
+	int step(final boolean isZero){
+		return isZero ? -1 : 1;
 	}
 	boolean isDirX(final int d){
 		return DX==d;
@@ -257,7 +260,7 @@ class PinkFloyd{
 		final boolean r = m[x][y][DY];
 		if(xx){
 			if(yy){
-				//if(xC == x && yC == y) return 'c';
+				if(xC == x && yC == y) return 'c';
 				if(entrX == x && entrY == y) return 'i';
 				if(exitX == x && exitY == y) return 'o';
 				//return (m[x][y][HB])?'B':'b';
