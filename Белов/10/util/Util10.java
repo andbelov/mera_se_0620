@@ -37,15 +37,14 @@ public class Util10{
 	}
 	public static String giveRandomString(int len){
 		char[] ca = new char[len];
-		while(0<=--len){
-			ca[len] = giveRandom()
-			          ? giveRandomChar()
-			          : giveRandomNumChar();
+		while(0<--len){
+			ca[len] = giveRandomChar(false);
 		}
+		ca[0] = giveRandomChar(true);
 		return new String(ca);
 	}
-	public static char giveRandomChar(){
-		return (char)((int)(giveRandom()?'a':'A')
+	public static char giveRandomChar(final boolean capital){
+		return (char)((int)(capital?'A':'a')
 				+ giveRandom(26));
 	}
 	public static char giveRandomNumChar(){
