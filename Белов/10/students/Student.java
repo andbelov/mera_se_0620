@@ -3,6 +3,8 @@ import pinkFloyd.TheWall;
 
 import java.util.Arrays;
 
+import static util.Util10.giveRandom;
+
 public abstract class Student implements Runnable{
     protected int id;
     protected final String name;
@@ -10,6 +12,7 @@ public abstract class Student implements Runnable{
     protected int[] curPos;
     protected int steps;
     protected long time;
+    public Thread thread;
 
     protected Student(final int id, final String name, final TheWall theWall){
         this.id = id;
@@ -35,11 +38,11 @@ public abstract class Student implements Runnable{
         //System.out.println("time:"+time);
     }
     protected boolean isExitFound(){
-        //System.out.println("--------");
-        //if("Imqfm".equals(getName())){
-            //System.out.println(getName() + " curr " + curPos[0] + " " + curPos[1]);
-        //}
-        //System.out.println("exit " + pinkFloyd.giveExit()[0] + " " + pinkFloyd.giveExit()[1]);
+        try{
+            Thread.sleep(giveRandom(10));
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
         return Arrays.equals(curPos, theWall.giveExit());
     }
     abstract protected void calcMove();

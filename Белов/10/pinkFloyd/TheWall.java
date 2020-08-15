@@ -34,8 +34,8 @@ public class TheWall{
 	private final int DX = 0;
 	private final int DY = 1;
 	private final int HB = 2;
-	private final int MX = giveRandomInBound(12, 14);
-	private final int MY = giveRandomInBound(5, 6);
+	private final int MX = 3;//giveRandomInBound(12, 14);
+	private final int MY = 3;//giveRandomInBound(5, 6);
 	private final int I0 = 0;
 	private final int IX = MX - 1;
 	private final int IY = MY - 1;
@@ -115,7 +115,8 @@ public class TheWall{
 		return studentsPos.size()-1;
 	}
 	public void updStudentPos(final int id, final int[] pos){
-		printWalls(0);
+//		printWalls(0);
+		System.out.println(id + " moving ");
 		if(null==pos){
 			throw new AssertionError(
 					"Provided null coordinates");
@@ -186,12 +187,12 @@ public class TheWall{
 				xC=move1[0]; yC=move1[1];
 				//printCurrent("Pop:");
 			}
-			printWalls(count); //after each digging
+//			printWalls(count); //after each digging
 		}while(++count<99999 && moves.size()>0);
 		/*for(int[] p : path){
 			System.out.println(p[0] + " " + p[1]);
 		}*/
-		printWalls(count); //FINALLY
+//		printWalls(count); //FINALLY
 		System.out.println("-- Finished digging The Wall, maze created --");
 	}
 	public void printWalls(int count){

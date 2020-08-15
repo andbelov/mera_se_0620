@@ -32,15 +32,16 @@ public class Lecture10{
 		System.out.println("==== Force students run on The Wall ====");
 		students.forEach(student -> {
 			System.out.println(student.getName() + " is ready! start");
-			Thread thread = new Thread(student, student.getName());
-			thread.start();
+			student.thread = new Thread(student, student.getName());
+			student.thread.start();
+		});
+		students.forEach(student -> {
 			try{
-				thread.join();
+				student.thread.join();
 			}catch(InterruptedException e){
 				e.printStackTrace();
 			}
 		});
-
 		System.out.println("==== The students have finished ====");
 		students.forEach(student -> System.out.println(student.getName()
 				+ " made " + student.getSteps() + " steps"
@@ -51,7 +52,58 @@ public class Lecture10{
 		System.out.println("The winner is ....., yes! " + winner.getName() + "! Congrats!");
 	}
 }
-/* output:
+/* output. The next pull request.
+ with thread.join(); placed out of Thread creation loop
+ and Thread.sleep(giveRandom(10)) in each moving
+The previous pull request (output BELOW) was with thread.join(); inside of Thread creation
+ and without Thread.sleep(giveRandom())
+
+==== Invite Pink Floyd ====
+		-- PinkFloyd, The Wall. China Great Wall socks --
+		'c' - Current position of digging process
+		'i' - Entrance
+		'o' - Exit
+		Entrance:[1][0], Exit:[0][1]
+		0 1 2,0
+		┌─┬─→
+		0│∙│c
+		└─┼─┐
+		1 o│∙│
+		←─┴─┘
+		-- Starting digging The Wall, creating maze .. --
+		Exit found, move back
+		-- Finished digging The Wall, maze created --
+		==== Add students on The Wall ====
+		'0','1',.. - each student's position behind The Wall
+		==== Force students run on The Wall ====
+		"Cheater 0 Bumam" is ready! start
+		"Random 1 Bjytwj" is ready! start
+		"Random 2 Jjejdv" is ready! start
+		"Random 3 Fbaqng" is ready! start
+		"Random 4 Bliiou" is ready! start
+		3 moving
+		2 moving
+		2 moving
+		1 moving
+		0 moving
+		4 moving
+		1 moving
+		4 moving
+		0 moving
+		3 moving
+		2 moving
+		2 moving
+		==== The students have finished ====
+		"Cheater 0 Bumam" made 2 steps for time(ms) 16
+		"Random 1 Bjytwj" made 2 steps for time(ms) 21
+		"Random 2 Jjejdv" made 4 steps for time(ms) 25
+		"Random 3 Fbaqng" made 2 steps for time(ms) 17
+		"Random 4 Bliiou" made 2 steps for time(ms) 14
+		==== Only one student is a winner ====
+		The winner is ....., yes! "Cheater 0 Bumam"! Congrats!
+*/
+/* output when join in the Thread creation and w/o thread sleep:
+
 ==== Invite Pink Floyd ====
 -- PinkFloyd, The Wall. China Great Wall socks --
 'c' - Current position of digging process
