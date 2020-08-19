@@ -8,10 +8,12 @@ import java.util.function.BinaryOperator;
 import static util.Util11.giveRandom;
 
 public class Student {
+    private final int id;
     private final String name;
     private final Set<Lecture> lectSet = new HashSet<>();
     private final int PREFERRED_LECTURES_NUM;
-    public Student(final String name, final List<Lecture> availLectures) {
+    public Student(final int id, final String name, final List<Lecture> availLectures) {
+        this.id = id;
         this.name = name;
         PREFERRED_LECTURES_NUM = giveRandom(availLectures.size());
         for(int i=PREFERRED_LECTURES_NUM; 0<=--i; ){
@@ -19,11 +21,13 @@ public class Student {
         }
     }
     //this constructor only for test cases
-    public Student(final String name) {
+    public Student(final int id, final String name) {
+        this.id = id;
         this.name = name;
         PREFERRED_LECTURES_NUM = 777;
     }
 
+    public int getId(){return id;}
     public String getName() {
         return name;
     }
