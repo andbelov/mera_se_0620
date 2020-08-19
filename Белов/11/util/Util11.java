@@ -8,7 +8,11 @@ public class Util11{
 	public static void setSeed(final int seed){
 		 random.setSeed(seed);
 	}
-	public static <T> Class<?> getRandomClass(Class<?>[] classes){
+	public static <T extends Enum<T>> T giveRandomEnum(Class<T> enumClass) {
+		T[] values = enumClass.getEnumConstants();
+		return values.length == 0 ? null : values[giveRandom(values.length)];
+	}
+	public static <T> Class<?> giveRandomClass(Class<?>[] classes){
 		return classes[giveRandom(classes.length)];
 	}
 	public static int giveRandomInBound(final int min, final int max){
